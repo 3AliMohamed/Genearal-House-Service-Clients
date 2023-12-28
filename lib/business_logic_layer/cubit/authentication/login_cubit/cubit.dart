@@ -24,15 +24,24 @@ class LogInCubit extends Cubit<LogInStates>
     emit(ChangePassVisibiltyState());
   }
   void login(String email, String password)
-  {
-    loginRepository.login(email, password).then((response){
-      // log("reponse :" + response.toString());
+  async{
+    try{
+      final response = await loginRepository.login(email, password);
       emit(LoginSuccessState());
-    }).catchError((error){
+      log(response.toString());
+    }
+    catch(e){
+      emit(LoginErrorState(e.toString()));
+    }
 
-      log("error : "+error);
-      emit(LoginErrorState(error.toString()));
-    });
+    // loginRepository.login(email, password).then((response){
+    //   // log("reponse :" + response.toString());
+    //   emit(LoginSuccessState());
+    // }).catchError((error){
+    //
+    //   log("error : "+error.toString());
+    //   emit(LoginErrorState(error.toString()));
+    // });
   }
 
 

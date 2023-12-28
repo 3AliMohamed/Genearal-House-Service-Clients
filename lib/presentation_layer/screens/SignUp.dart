@@ -264,7 +264,7 @@ class _SignupPageState extends State<SignupPage> {
                   return Row(
                     children: [
                       SizedBox(width: 15.w,),
-                      Text('Gender', style: TextStyle(color: Colors.white,fontSize: 20.sp,)),
+                      Text('Gender', style: TextStyle(color: Colors.white,fontSize: 20.sp,)).tr(),
                       SizedBox(width: 20.w,),
                       Radio(
                         activeColor: Color(0xff14676D),
@@ -274,7 +274,7 @@ class _SignupPageState extends State<SignupPage> {
                           RegisterCubit.get(context).changeGender(value.toString());
                         },
                       ),
-                      Text('Male',style: TextStyle(color: Colors.white),),
+                      Text('Male',style: TextStyle(color: Colors.white),).tr(),
                       SizedBox(width: 70.w,),
                       Radio(
                         activeColor: Color(0xff14676D),
@@ -284,7 +284,7 @@ class _SignupPageState extends State<SignupPage> {
                          RegisterCubit.get(context).changeGender(value.toString());
                         },
                       ),
-                      Text('Female',style: TextStyle(color: Colors.white),),
+                      Text('Female',style: TextStyle(color: Colors.white),).tr(),
 
                     ],
                   );
@@ -337,10 +337,10 @@ class _SignupPageState extends State<SignupPage> {
                     // SizedBox(width:MediaQuery.of(context).size.width*0.07,),
                     Text(
                     // '${ anasHere.counter}',
-                        Trans('already have an account ?').tr,
+                        'already have an account ?',
                         style: TextStyle(color: userAndPassword,)
 
-                    ),
+                    ).tr(),
                     SizedBox(width:8.w,),
                     // SizedBox(width:MediaQuery.of(context).size.width*0.03,),
                     GestureDetector(
@@ -348,10 +348,10 @@ class _SignupPageState extends State<SignupPage> {
                         Navigator.of(context).pushNamed('/login');
                       },
                       child: Text(
-                          Trans('Signin').tr,
+                          'Signin',
                           style: TextStyle(color: Colors.white,)
 
-                      ),
+                      ).tr(),
                     ),
 
                     // IconButton(onPressed: (){   // for testing provider between two screens

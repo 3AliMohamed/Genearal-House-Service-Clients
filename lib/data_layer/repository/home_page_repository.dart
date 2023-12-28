@@ -28,7 +28,6 @@ class HomePageRepository{
    // log(homePageResponse.data.homePage.sliderImages.toString());
     if(homePageResponse.status==true)
       {
-        log("message : "+ homePageResponse.data.toString());
         return homePageResponse.data;
       }else{ return null;}
     // return home_page_response;

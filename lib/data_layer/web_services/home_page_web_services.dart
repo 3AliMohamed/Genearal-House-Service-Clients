@@ -26,9 +26,7 @@ class HomePageWebServices{
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      log("inside status code 200");
       dynamic home_page_response=await response.stream.bytesToString();
-      log(home_page_response);
       return  home_page_response;
   }
   else {

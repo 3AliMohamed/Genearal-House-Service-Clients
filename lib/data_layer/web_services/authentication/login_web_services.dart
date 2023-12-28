@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:general_house_service_clients/constants/end_points.dart';
 
 import '';
@@ -25,7 +26,7 @@ async {
   if (response.statusCode == 200) {
    var responseBody= await response.stream.bytesToString();
    Map<String, dynamic> responseJason = jsonDecode(responseBody);
-   // print(responseJason);
+   log("response in web service"+responseJason.toString());
    return responseJason;
 
  }

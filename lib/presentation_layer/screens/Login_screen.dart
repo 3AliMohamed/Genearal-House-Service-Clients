@@ -8,12 +8,8 @@ import 'package:general_house_service_clients/presentation_layer/widgets/reusabl
 import '../../business_logic_layer/cubit/authentication/login_cubit/cubit.dart';
 import '../../business_logic_layer/cubit/authentication/login_cubit/states.dart';
 import '../../component/Colors.dart';
-import '../../screens/ForgetPassword.dart';
-// import 'Provider.dart';
 import 'SignUp.dart';
-import 'package:get/get.dart';
 
-import '../../screens/home_screen.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -63,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorBorder),
                 ),
-                hintText: tr('Email'),
+                hintText: ('Email').tr(),
                 hintStyle: TextStyle(
                   color: userAndPassword,
                   fontSize: 30.sp,
@@ -102,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: colorBorder),
                     ),
-                    hintText: tr('Password'),
+                    hintText: ('Password').tr(),
                     hintStyle: TextStyle(
                       color: userAndPassword,
                       fontSize: 30.sp,
@@ -125,8 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                     Navigator.of(context).pushNamed('/forget_password');
                   },
                   child: Text(
-                    // '${myDataModel.counter}',
-                    ('forget your password?'),
+                    'forget your password?',
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -141,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
               listener: (context,state)
               {
                 if (state is LoginErrorState) {
-                 showToast("ali");
+                 showToast(state.error);
                 };
                 if(state is LoginSuccessState){
                   Navigator.of(context).pushNamed('/home');
@@ -199,13 +194,6 @@ class _LoginPageState extends State<LoginPage> {
                       color: Colors.white,
                     )).tr(),
               ),
-
-              //
-              //                   IconButton(onPressed: (){  // for testing provider between two screens
-              // myDataModel.inc();
-              //
-              //                   }, icon: Icon(Icons.add,),),
-              //
             ]),
           ],
         ),

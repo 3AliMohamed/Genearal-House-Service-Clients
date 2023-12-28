@@ -67,7 +67,7 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                     MaterialPageRoute(builder: (context) => Verificationcode(),),
                   );
                 },
-                child: Text(('Get Verification Code'),style: TextStyle(fontSize:30.sp,color: Colors.white)).tr(),
+                child: Text('Get Verification Code',style: TextStyle(fontSize:30.sp,color: Colors.white)).tr(),
               ),
             ),
             Spacer(),

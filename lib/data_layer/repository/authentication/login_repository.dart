@@ -18,7 +18,8 @@ class LogInRepository{
       final  loginresponse=  await loginWebServices.login(email,password);
       // log("repository_login_Response "+ loginresponse.toString());
       LoginResponse login_response=LoginResponse(status: loginresponse!['status'],
-          data:Data.fromJson(loginresponse['data']), message: loginresponse!['message']
+          data:Data.fromJson(loginresponse['data']),
+          message: loginresponse!['message'],
       );
       if(login_response.status!=null)
       {
@@ -31,10 +32,13 @@ class LogInRepository{
         SharedPreferencesManager.setString('gender', login_response.data!.gender.toString());
         // SharedPreferencesManager.setString('password', login_response.data!..toString());
         SharedPreferencesManager.setString('token', login_response.data!.token.toString());
+        SharedPreferencesManager.setString('email', login_response.data!.email.toString());
+        SharedPreferencesManager.setString('password', password);
+        SharedPreferencesManager.setString('lang', 'English');
 
         SharedPreferencesManager.setBool('is_login',true);
 
-        log("email: "+login_response.data!.email.toString());
+        // log("email: "+login_response.data!.email.toString());
         return  login_response.data;
       } 
       else

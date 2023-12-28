@@ -2,29 +2,21 @@ import 'package:general_house_service_clients/data_layer/models/category_respons
 
 abstract class CategoryStates{}
 
-class CategoryInitialState extends CategoryStates{}
+class LoadingState extends CategoryStates{}
 
-class CategoryLoadedSuccessState extends CategoryStates{
+class InitialState extends CategoryStates{}
+
+class LoadedSuccessfullyState extends CategoryStates{
   CategoryResponse response;
-  CategoryLoadedSuccessState(this.response);
+  LoadedSuccessfullyState(this.response);
 
 }
 
-class CategoryLoadErrorState extends CategoryStates {
+class LoadingErrorState extends CategoryStates {
   dynamic error ;
-  CategoryLoadErrorState(this.error);
+  LoadingErrorState(this.error);
 }
 
 
-class CategoryWithParentLoadedSuccessState extends CategoryStates{
-  CategoryResponse response;
-  CategoryWithParentLoadedSuccessState(this.response);
-
-}
-
-class CategoryWithParentLoadErrorState extends CategoryStates {
-  dynamic error ;
-  CategoryWithParentLoadErrorState(this.error);
-}
 
 

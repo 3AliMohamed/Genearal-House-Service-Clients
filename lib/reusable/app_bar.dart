@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:general_house_service_clients/helpers/SharedPrefManager.dart';
 
@@ -35,7 +36,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: Text(
             is_login != null && is_login! ?"Hello $user_name" : "Login" ,
             style: TextStyle(color: Colors.white),
-          ),
+          ).tr(),
         )
       ],
       flexibleSpace: Container(

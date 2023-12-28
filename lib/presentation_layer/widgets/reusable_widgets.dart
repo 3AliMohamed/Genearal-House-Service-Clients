@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,7 +8,7 @@ void showToast(String message) {
     msg: message,
     toastLength: Toast.LENGTH_SHORT,
     gravity: ToastGravity.CENTER,
-    timeInSecForIosWeb: 5,
+    timeInSecForIosWeb: 10,
     backgroundColor: Color(0xff157A82),
     textColor: Colors.black,
     fontSize: 16.0,
@@ -27,7 +28,7 @@ Widget buildTextFormFieldProfileScreen(TextEditingController controller,String h
    child: TextFormField(
      decoration: InputDecoration(
        contentPadding: EdgeInsets.only(left: 10.sp),
-       hintText: hintText,
+       hintText: tr(hintText),
        hintStyle: TextStyle(color: Colors.grey),
      ),
      // textAlign: TextAlign.center,
@@ -45,7 +46,7 @@ Widget buildGenderCheckBox(String gender, ValueSetter<String?> onChange)
   return Row(
     children: [
       SizedBox(width: 15.w,),
-      Text('Gender', style: TextStyle(color: Colors.white,fontSize: 20.sp,)),
+      Text('Gender', style: TextStyle(color: Colors.white,fontSize: 20.sp,)).tr(),
       SizedBox(width: 60.w,),
       Radio(
         activeColor: Color(0xff14676D),
@@ -53,7 +54,7 @@ Widget buildGenderCheckBox(String gender, ValueSetter<String?> onChange)
         groupValue: gender,
         onChanged: onChange
       ),
-      Text('Male',style: TextStyle(color: Colors.white),),
+      Text('Male',style: TextStyle(color: Colors.white),).tr(),
       SizedBox(width: 70.w,),
       Radio(
         activeColor: Color(0xff14676D),
@@ -61,7 +62,7 @@ Widget buildGenderCheckBox(String gender, ValueSetter<String?> onChange)
         groupValue: gender,
         onChanged: onChange
       ),
-      Text('Female',style: TextStyle(color: Colors.white),),
+      Text('Female',style: TextStyle(color: Colors.white),).tr(),
 
     ],
   );

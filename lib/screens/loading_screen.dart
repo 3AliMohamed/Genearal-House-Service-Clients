@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,25 +48,25 @@ class _LoadingScreen extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          items: AppCubit.get(context).buildBottomNavItems(),
-          onTap: (index) => AppCubit.get(context).navigateOnTab(context, index),
-          currentIndex: AppCubit.get(context).selectedTap,
-          selectedFontSize: 10.sp,
-          unselectedFontSize: 10.sp,
-          unselectedItemColor: Colors.blueGrey,
-          selectedItemColor: Colors.blueGrey,
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Color(0XFF202020),
-        ),
-        appBar: CustomAppBar(
-          onUserIconPressed: () {
-            Navigator.of(context).pushNamed('/drawer_screen');
-          },
-          onLoginPressed: () {
-            Navigator.of(context).pushNamed('/login');
-          },
-        ),
+        // bottomNavigationBar: BottomNavigationBar(
+        //   items: AppCubit.get(context).buildBottomNavItems(),
+        //   onTap: (index) => AppCubit.get(context).navigateOnTab(context, index),
+        //   currentIndex: AppCubit.get(context).selectedTap,
+        //   selectedFontSize: 10.sp,
+        //   unselectedFontSize: 10.sp,
+        //   unselectedItemColor: Colors.blueGrey,
+        //   selectedItemColor: Colors.blueGrey,
+        //   type: BottomNavigationBarType.fixed,
+        //   backgroundColor: Color(0XFF202020),
+        // ),
+        // appBar: CustomAppBar(
+        //   onUserIconPressed: () {
+        //     Navigator.of(context).pushNamed('/drawer_screen');
+        //   },
+        //   onLoginPressed: () {
+        //     Navigator.of(context).pushNamed('/login');
+        //   },
+        // ),
         body: Container(
         height: ScreenUtil().screenHeight,
         width: ScreenUtil().screenWidth,
@@ -85,7 +86,7 @@ class _LoadingScreen extends State<LoadingScreen> {
             Text(
               'Please wait, loading...',
               style: TextStyle(fontSize: 16.0,color: Colors.white),
-            ),
+            ).tr(),
           ],
         ),
       )

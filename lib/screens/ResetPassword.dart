@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -37,7 +38,7 @@ class _ResetpasswordState extends State<Resetpassword> {
                 focusedBorder:UnderlineInputBorder(
                   borderSide: BorderSide(color:colorBorder),
                 ) ,
-                hintText: '        New Password',
+                hintText: tr('New Password'),
                 hintStyle: TextStyle(color: userAndPassword,fontSize: 30,),
                 prefixIcon:Image.asset('assets/images/padlock (2).png',
                   // height: MediaQuery.of(context).size.height*0.09,
@@ -56,7 +57,7 @@ class _ResetpasswordState extends State<Resetpassword> {
                 focusedBorder:UnderlineInputBorder(
                   borderSide: BorderSide(color:colorBorder),
                 ) ,
-                hintText: '        Confirm Password',
+                hintText: tr('Confirm Password'),
                 hintStyle: TextStyle(color: userAndPassword,fontSize: 30),
                 prefixIcon: Image.asset('assets/images/Component 1 – 1.png',
                   // height: MediaQuery.of(context).size.height*0.09,
@@ -80,7 +81,7 @@ class _ResetpasswordState extends State<Resetpassword> {
                     )
                 ),
                 onPressed: () {},
-                child: Text('Back To Login',style: TextStyle(fontSize: 30,)),
+                child: Text('Back To Login',style: TextStyle(fontSize: 30,)).tr(),
               ),
             ),
 
