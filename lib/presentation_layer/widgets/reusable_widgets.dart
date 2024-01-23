@@ -1,8 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 void showToast(String message) {
   Fluttertoast.showToast(
     msg: message,
@@ -17,18 +17,31 @@ void showToast(String message) {
 
 
 
-Widget buildTextFormFieldProfileScreen(TextEditingController controller,String hintText )
+Widget buildTextFormFieldProfileScreen(TextEditingController controller,String hintText,String icon )
 {
  return Container(
    decoration: BoxDecoration(
-     border: Border.all(color: Colors.white,width: 2.sp,),
-     borderRadius: BorderRadius.circular(25.sp),
+       boxShadow: [
+         BoxShadow(
+           color: Colors.white,
+         ),
+         BoxShadow(
+           color: Color.fromRGBO(0,0, 0, 0.9),
+           spreadRadius: -1,
+           blurRadius: 5,
+           offset: Offset(0,0),
+           // blurStyle: BlurStyle.solid
+         )
+       ],
+     // border: Border.all(color: Colors.white,width: 2.sp,),
+     borderRadius: BorderRadius.circular(5.sp),
 
    ),
    child: TextFormField(
      decoration: InputDecoration(
+       prefixIcon: Image.asset(icon,width: 3.w,height: 3.h),
        contentPadding: EdgeInsets.only(left: 10.sp),
-       hintText: tr(hintText),
+       hintText: Trans(hintText).tr,
        hintStyle: TextStyle(color: Colors.grey),
      ),
      // textAlign: TextAlign.center,
@@ -46,23 +59,23 @@ Widget buildGenderCheckBox(String gender, ValueSetter<String?> onChange)
   return Row(
     children: [
       SizedBox(width: 15.w,),
-      Text('Gender', style: TextStyle(color: Colors.white,fontSize: 20.sp,)).tr(),
+      Text(Trans('Gender').tr, style: TextStyle(color: Colors.white,fontSize: 20.sp,)),
       SizedBox(width: 60.w,),
       Radio(
         activeColor: Color(0xff14676D),
-        value: 'male',
+        value: Trans('male').tr,
         groupValue: gender,
         onChanged: onChange
       ),
-      Text('Male',style: TextStyle(color: Colors.white),).tr(),
+      Text(Trans('Male').tr,style: TextStyle(color: Colors.white),),
       SizedBox(width: 70.w,),
       Radio(
         activeColor: Color(0xff14676D),
-        value: 'female',
+        value: Trans('female').tr,
         groupValue: gender,
         onChanged: onChange
       ),
-      Text('Female',style: TextStyle(color: Colors.white),).tr(),
+      Text(Trans('Female').tr,style: TextStyle(color: Colors.white),),
 
     ],
   );
@@ -77,35 +90,84 @@ Widget buildCategoryItem(String imgPath ,String label,void Function() onTapp)
     child: Padding(
       padding: EdgeInsets.all(8.sp),
       child: Container(
-          height: 150.h,
-          width: 150.w,
+          height: 200.h,
+          width: 200.w,
           decoration: BoxDecoration(
+
             borderRadius: BorderRadius.circular(
-                10.sp),
-            color: Colors.grey,
+                30.sp),
+            // color: Colors.white,
           ),
-          child: Column(
+          child: Stack(
+            alignment: Alignment.bottomCenter,
             children: [
-              imageApi== null?Image.asset('assets/images/temp.png'): Image.network(
-                imageApi,
-                // Replace with the path to your second image
-                width: 200.0.w,
-                // Adjust the width as needed
-                height: 170.h, // Adjust the height as needed
-              ),
+              imageApi != null?
+                Container(
+
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xff0083F7),
+                      ),
+                      BoxShadow(
+                        color: Color.fromRGBO(0,0, 0, 0.9),
+                        spreadRadius: -1,
+                        blurRadius: 20,
+                        offset: Offset(0,0),
+                        // blurStyle: BlurStyle.solid
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(30.sp),
+                  ),
+                  child: Image.network(
+
+                    imageApi,
+                    width: double.infinity, // Image takes full width
+                    fit: BoxFit.cover, // Adjusts the image content mode
+                    height: 195.h,
+                  ),
+                )
+              :
+                Image.asset(
+                  'assets/images/temp.png',
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  height: 150.h,
+                ),
               Container(
+                width: double.infinity,
+                height: 50.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(2.sp),
+                  // color: Color(0xff06083D), // Background color for text
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0xff0083F7),
+                    ),
+                    BoxShadow(
+                      color: Color(0xff06083D),
+                      spreadRadius: -3,
+                      blurRadius: 20,
+                      offset: Offset(0,5),
+                      // blurStyle: BlurStyle.solid
+                    )
+                  ],
+                ),
+                padding: EdgeInsets.all(8.sp),
                 child: Text(
-                  label,
+                  textAlign: TextAlign.center,
+                  Trans(label).tr,
                   maxLines: 1,
                   overflow: TextOverflow.clip,
                   style: TextStyle(
-                      color: Color(0xff3A78A4),
-                      fontSize: 20.sp
+                    color: Colors.white,
+                    fontSize: 23.sp,
+                    fontWeight: FontWeight.bold
                   ),
                 ),
-              )
+              ),
             ],
-          )
+          ),
 
         // Second Image
 

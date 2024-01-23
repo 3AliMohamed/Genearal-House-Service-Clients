@@ -15,7 +15,7 @@ class AddProductCubit extends Cubit<AddProductStates>{
   // }
   //
   // AddProductCubit._internal() : super(InitialState());
-AddProductCubit() : super(InitialState());
+AddProductCubit() : super(AddProductInitialState());
   static AddProductCubit get(context) => BlocProvider.of(context);
 
   int quantity=0;
@@ -28,7 +28,7 @@ AddProductCubit() : super(InitialState());
   }
 
   void decrementQuantity(){
-    if(quantity>=0)
+    if(quantity>0)
     {
       quantity--;
     }
@@ -45,13 +45,14 @@ AddProductCubit() : super(InitialState());
     for(int i=0;i<chosenItem.length;i++){
       log("len :"+chosenItem.length.toString());
       log('chosen item:'+chosenItem[i].quantity.toString());
+
     // chosenItem.map((e) => log(e.quantity.toString()));
     }
     this.quantity=0;
+    // this.chosenItem.clear();
   }
   void addOrder(int? companyId)
   async{
-
     emit(PlacingOrderState());
     AddItemToOrderRequest chosenOptions=AddItemToOrderRequest(addItemToOrderRequestItems:chosenItem,companyId:companyId!);
     log(chosenOptions.companyId.toString());

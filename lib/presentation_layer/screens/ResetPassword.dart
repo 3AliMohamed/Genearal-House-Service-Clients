@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../component/Colors.dart';
-import 'Verification.dart';
 import 'package:get/get.dart';
-import 'package:easy_localization/easy_localization.dart';
-class Forgetpassword extends StatefulWidget {
+
+import '../../component/Colors.dart';
+
+class Resetpassword extends StatefulWidget {
   @override
-  State<Forgetpassword> createState() => _ForgetpasswordState();
+  State<Resetpassword> createState() => _ResetpasswordState();
 }
 
-class _ForgetpasswordState extends State<Forgetpassword> {
+class _ResetpasswordState extends State<Resetpassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-
       body: Container(
-        height: ScreenUtil().screenHeight,
+        height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/Artboard 2.jpg"),
@@ -28,13 +26,30 @@ class _ForgetpasswordState extends State<Forgetpassword> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height:100  .h,),
             Image.asset('assets/images/logo2psd.png',
             ),
-            SizedBox(height: 15.h,),
             TextFormField(
               keyboardType: TextInputType.text,
               style: TextStyle(color: userAndPassword),
+              decoration: InputDecoration(
+             enabledBorder: UnderlineInputBorder(
+               borderSide: BorderSide(color:colorBorder),
+             ),
+                focusedBorder:UnderlineInputBorder(
+                  borderSide: BorderSide(color:colorBorder),
+                ) ,
+                hintText: Trans('New Password').tr,
+                hintStyle: TextStyle(color: userAndPassword,fontSize: 30,),
+                prefixIcon:Image.asset('assets/images/padlock (2).png',
+                  // height: MediaQuery.of(context).size.height*0.09,
+                  // width:MediaQuery.of(context).size.width*0.09,
+                ),
+
+              ),
+            ),
+            SizedBox(height:MediaQuery.of(context).size.height*0.06,),
+            TextFormField(
+              obscureText: true,
               decoration: InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color:colorBorder),
@@ -42,15 +57,19 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                 focusedBorder:UnderlineInputBorder(
                   borderSide: BorderSide(color:colorBorder),
                 ) ,
-                hintText: tr('Email Address'),
-                hintStyle: TextStyle(color: userAndPassword,fontSize: 30.sp,),
-                prefixIcon:Image.asset('assets/images/mail.png',
-                ),
+                hintText: Trans('Confirm Password').tr,
+                hintStyle: TextStyle(color: userAndPassword,fontSize: 30),
+                prefixIcon: Image.asset('assets/images/Component 1 – 1.png',
+                  // height: MediaQuery.of(context).size.height*0.09,
+                  // width:MediaQuery.of(context).size.width*0.09,
+                  ),
 
               ),
             ),
-            SizedBox(height:40.h,),
+            SizedBox(height:MediaQuery.of(context).size.height*0.03,),
+
             SizedBox(
+              width: MediaQuery.of(context).size.width*0.8,
               child: ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor:MaterialStateProperty.all(Color(0xFF00729D),) ,
@@ -61,16 +80,12 @@ class _ForgetpasswordState extends State<Forgetpassword> {
                         )
                     )
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Verificationcode(),),
-                  );
-                },
-                child: Text('Get Verification Code',style: TextStyle(fontSize:30.sp,color: Colors.white)).tr(),
+                onPressed: () {},
+                child: Text(Trans('Back To Login').tr,style: TextStyle(fontSize: 30,)),
               ),
             ),
-            Spacer(),
+
+
 
           ],
         ),

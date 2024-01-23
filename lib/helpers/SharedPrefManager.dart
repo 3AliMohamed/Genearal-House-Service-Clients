@@ -35,6 +35,7 @@ class SharedPreferencesManager {
   static Future<void> init() async {
     if (prefs == null) {
       prefs = await SharedPreferences.getInstance();
+      prefs!.setString('lang', 'en');
     }
   }
 

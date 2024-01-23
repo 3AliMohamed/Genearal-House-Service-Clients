@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:general_house_service_clients/constants/end_points.dart';
 import 'package:general_house_service_clients/helpers/SharedPrefManager.dart';
 import 'package:http/http.dart' as http;
@@ -13,7 +15,7 @@ class CartWebServices{
   // validate if status is false then show the backend message and throw an exception
   CartWebServices._internal();
 
-  static Future<dynamic> getCart()
+  static Future<String?> getCart()
   async{
     dynamic token =SharedPreferencesManager.getString('token');
     var headers = {
@@ -28,12 +30,13 @@ class CartWebServices{
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      dynamic cartResponse= await response.stream.bytesToString();
+      String cartResponse= await response.stream.bytesToString();
       return cartResponse;
     }
     else {
       print(response.reasonPhrase);
-      return null;
+      return response.reasonPhrase ;
+      // return null;
     }
 
   }

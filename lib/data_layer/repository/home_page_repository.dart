@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:general_house_service_clients/data_layer/models/home_page_response.dart';
+import 'package:general_house_service_clients/data_layer/models/responses/home_page_response.dart';
 import 'package:general_house_service_clients/data_layer/web_services/home_page_web_services.dart';
 
 class HomePageRepository{

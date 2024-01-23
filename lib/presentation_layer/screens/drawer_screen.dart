@@ -1,6 +1,4 @@
-import 'dart:developer';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,9 +6,11 @@ import 'package:general_house_service_clients/business_logic_layer/cubit/authent
 import 'package:general_house_service_clients/business_logic_layer/cubit/authentication/logout/states.dart';
 import 'package:general_house_service_clients/helpers/SharedPrefManager.dart';
 import 'package:general_house_service_clients/presentation_layer/widgets/reusable_widgets.dart';
+import 'package:get/get.dart';
 
 import '../../business_logic_layer/cubit/app_cubit/cubit.dart';
 import '../../reusable/app_bar.dart';
+import 'address.dart';
 
 class DrawerScreen extends StatefulWidget {
   const DrawerScreen({Key? key}) : super(key: key);
@@ -22,33 +22,59 @@ class DrawerScreen extends StatefulWidget {
 class _DrawerScreenState extends State<DrawerScreen> {
   String? client_name=SharedPreferencesManager.getString('name');
   String? client_email=SharedPreferencesManager.getString('email');
-  String? selectedValue = SharedPreferencesManager.getString('lang');
+
+  String? selectedValue = SharedPreferencesManager.getString('lang') =='en'? 'English':'Arabic';
 
   // List of items for the dropdown menu
   List<String> items = ['English', 'Arabic',];
+  final List<Map<String, dynamic>> locale = [
+    {'name': 'English', 'locale': Locale('en')},
+    {'name': 'Arabic', 'locale': Locale('ar')},
+  ];
 
+  _updateLanguage(Locale locale) {
+    Get.back();
+    Get.updateLocale(locale);
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: AppCubit.get(context).buildBottomNavItems(),
-        onTap: (index) => AppCubit.get(context).navigateOnTab(context, index),
-        currentIndex: AppCubit.get(context).selectedTap,
-        selectedFontSize: 10.sp,
-        unselectedFontSize: 10.sp,
-        unselectedItemColor: Colors.blueGrey,
-        selectedItemColor: Colors.blueGrey,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Color(0XFF202020),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xff0083F7).withOpacity(0.8),
+              // spreadRadius: -20,
+            ),
+            BoxShadow(
+              color: Color(0xff06083D),
+              // Color(0xff06083D).withOpacity(0.9),
+              spreadRadius: -20,
+              blurRadius: 20,
+              offset: Offset(20, 10),
+              // blurStyle: BlurStyle.solid
+            )
+          ],
+        ),
+        child: PhysicalModel(
+          color: Color(0xff06083D).withOpacity(0.6),
+          elevation: 5.0, // Adjust the elevation as needed
+          // borderRadius: BorderRadius.circular(10.0), // Adjust the border radius as needed
+          child: BottomNavigationBar(
+            items: AppCubit.get(context).buildBottomNavItems(),
+            onTap: (index) => AppCubit.get(context).navigateOnTab(context, index),
+            currentIndex: AppCubit.get(context).selectedTap,
+            selectedFontSize: 10.sp,
+            unselectedFontSize: 10.sp,
+            unselectedItemColor: Colors.blueGrey,
+            selectedItemColor: Colors.blueGrey,
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.transparent, // Set background color to transparent
+          ),
+        ),
       ),
-      appBar: CustomAppBar(
-        onUserIconPressed: () {
-          Navigator.of(context).pushNamed('/drawer_screen');
-        },
-        onLoginPressed: () {
-          Navigator.of(context).pushNamed('/login');
-        },
-      ),
+      appBar: CustomAppBar(),
       body: Container(
           height: ScreenUtil().screenHeight,
           decoration: BoxDecoration(
@@ -61,18 +87,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 40.h,),
-              Row(
-                children: [
-                  Padding(
-                    padding:  EdgeInsets.only(left: 8.sp),
-                    child: Text(tr("Hello "),
-                    style: TextStyle(color: Colors.white, fontSize: 30.sp, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Text(client_name != null ? client_name! : 'Client',
-                  style: TextStyle(color: Colors.white, fontSize: 30.sp, fontWeight: FontWeight.bold),
-                  ),
-                ],
+              Padding(
+                padding:  EdgeInsets.only(left: 8.sp),
+                child: Text(Trans("Hello ").tr+ client_name! !="" ? client_name! : Trans('Client').tr,
+                style: TextStyle(color: Colors.white, fontSize: 30.sp, fontWeight: FontWeight.bold),
+                ),
               ),
               Padding(
                 padding:  EdgeInsets.only(left: 8.sp),
@@ -90,12 +109,28 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       {
                         Navigator.of(context).pushNamed('/profile');
                       },
-                      child: Text("Profile",
-                        style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold), ).tr()
+                      child: Text(Trans("Profile").tr,
+                        style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold), )
                   )
                 ],
               ),
               SizedBox(height: 10.h),
+              Row(
+                children: [
+                  Image.asset("assets/images/myAddresses.png",  width: 50.w,height: 50.h,),
+                  SizedBox(width: 10.w,),
+                  InkWell(
+                    onTap: ()
+                      {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Address(isShowed: false,)));
+                      },
+                      child: Text(Trans("My Addresses").tr,
+                        style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold), )
+                  )
+                ],
+              ),
+              SizedBox(height: 10.h),
+
               Row(
               mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -105,8 +140,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     onTap: (){
                       Navigator.of(context).pushNamed('/my_orders');
                     },
-                      child: Text("My Orders",
-                        style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold), ).tr())
+                      child: Text(Trans("My Orders").tr,
+                        style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold), ))
                 ],
               ),
               SizedBox(height: 20.h),
@@ -115,8 +150,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 children: [
                   Image.asset("assets/images/change_lang_icon.png",width: 50.w,height: 50.h),
                   SizedBox(width: 10.w,),
-                  Text("Change Language", style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),).tr(),
-                  SizedBox(width: SharedPreferencesManager.getString('lang')=='English'? 135.w :205.w,),
+                  Text(Trans("Change Language").tr, style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                  SizedBox(width: SharedPreferencesManager.getString('lang')=='en'? 125.w :180.w,),
                   Container(
                     // width: 10.w,
                       decoration: BoxDecoration(
@@ -137,19 +172,14 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       onChanged: (String? newValue) {
                         setState(() {
                           selectedValue = newValue!;
-
-                          if(selectedValue=='English')
-                            { 
-
-                              context.setLocale( Locale('en'));
-                            }
-                          else if(selectedValue =='Arabic')
-                            { 
-
-                              context.setLocale( Locale('ar'));
-                            }
+                          if (selectedValue == 'English') {
+                            SharedPreferencesManager.setString('lang', 'en');
+                            _updateLanguage(Locale('en'));
+                          } else {
+                            SharedPreferencesManager.setString('lang', 'ar');
+                            _updateLanguage(Locale('ar'));
+                          }
                         });
-                        SharedPreferencesManager.setString('lang',selectedValue);
                       },
                       items: items.map((String item) {
                         return DropdownMenuItem<String>(
@@ -157,9 +187,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           child: Padding(
                             padding: EdgeInsets.only(left:5.sp),
                             child: Text(
-                              item,
+                              Trans(item).tr,
                             style: TextStyle(color: Colors.white),
-                            ).tr(),
+                            ),
                           ),
                         );
                       }).toList(),
@@ -184,7 +214,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           SharedPreferencesManager.clearUserSession();
                           Navigator.of(context).pushNamed('/home');
                         },
-                        child:const Text("Logout", style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold) ).tr()
+                        child: Text(Trans("Logout").tr, style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold) )
                     )
                   ],
                 ),

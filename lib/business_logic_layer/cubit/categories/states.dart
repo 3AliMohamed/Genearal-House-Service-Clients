@@ -1,4 +1,4 @@
-import 'package:general_house_service_clients/data_layer/models/category_response.dart';
+import 'package:general_house_service_clients/data_layer/models/responses/category_response.dart';
 
 abstract class CategoryStates{}
 

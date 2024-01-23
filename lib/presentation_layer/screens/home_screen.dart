@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:general_house_service_clients/business_logic_layer/cubit/app_cubit/cubit.dart';
 import 'package:general_house_service_clients/business_logic_layer/cubit/home_page/cubit.dart';
 import 'package:general_house_service_clients/business_logic_layer/cubit/home_page/states.dart';
 import 'package:general_house_service_clients/constants/end_points.dart';
 import 'package:general_house_service_clients/presentation_layer/screens/categories_screen.dart';
-import '../../data_layer/models/home_page_response.dart';
+import 'package:general_house_service_clients/presentation_layer/widgets/reusable_widgets.dart';
+import 'package:get/get.dart';
+import '../../data_layer/models/responses/home_page_response.dart';
 import '../../helpers/SharedPrefManager.dart';
 import '../../reusable/app_bar.dart';
 
@@ -37,32 +39,41 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: AppCubit.get(context).buildBottomNavItems(),
-        onTap: (index) => AppCubit.get(context).navigateOnTab(context, index),
-        currentIndex: AppCubit.get(context).selectedTap,
-        selectedFontSize: 10.sp,
-        unselectedFontSize: 10.sp,
-        unselectedItemColor: Colors.blueGrey,
-        selectedItemColor: Colors.blueGrey,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Color(0XFF202020),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xff0083F7).withOpacity(0.8),
+              // spreadRadius: -20,
+            ),
+            BoxShadow(
+              color: Color(0xff06083D),
+              // Color(0xff06083D).withOpacity(0.9),
+              spreadRadius: -20,
+              blurRadius: 20,
+              offset: Offset(20, 10),
+              // blurStyle: BlurStyle.solid
+            )
+          ],
+        ),
+        child: PhysicalModel(
+          color: Color(0xff06083D).withOpacity(0.6),
+          elevation: 5.0, // Adjust the elevation as needed
+          // borderRadius: BorderRadius.circular(10.0), // Adjust the border radius as needed
+          child: BottomNavigationBar(
+            items: AppCubit.get(context).buildBottomNavItems(),
+            onTap: (index) => AppCubit.get(context).navigateOnTab(context, index),
+            currentIndex: AppCubit.get(context).selectedTap,
+            selectedFontSize: 10.sp,
+            unselectedFontSize: 10.sp,
+            unselectedItemColor: Colors.blueGrey,
+            selectedItemColor: Colors.blueGrey,
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.transparent, // Set background color to transparent
+          ),
+        ),
       ),
-      appBar: CustomAppBar(
-        onUserIconPressed: () {
-          Navigator.of(context).pushNamed('/drawer_screen');
-        },
-        onLoginPressed: () {
-          if (SharedPreferencesManager.containKey('is_login')==false)
-          {
-            Navigator.of(context).pushNamed('/login');
-          }else
-          {
-            if(SharedPreferencesManager.getBool('is_login')==true){Navigator.of(context).pushNamed('/profile');}
-            else{Navigator.of(context).pushNamed('/login');}
-          }
-        },
-      ),
+        appBar: CustomAppBar(),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
@@ -82,8 +93,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     if(state is HomePageInitialState)
                       {
                         HomePageCubit.get(context).fetchHomePageData();
-                        return CircularProgressIndicator();
-
+                        return  SpinKitFadingCube(
+                          color: Color(0xffB4AFAF),
+                          size: 50.0,
+                        );
                       }
                     else
                       {
@@ -109,12 +122,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   }),
               SizedBox(height: 20.h,),
               Text(
-                'We Care About Your House',
+                Trans('We Care About Your House').tr,
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
-              ).tr(),
+              ),
               SizedBox(height: 20.h,),
               BlocBuilder<HomePageCubit,HomePageStates>(
                   builder: (context, state)
@@ -148,7 +161,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   }).toList() ?? [],
                 );
                   }
-                else{return CircularProgressIndicator();}
+                else{return  SpinKitFadingCube(
+                  color: Color(0xffB4AFAF),
+                  size: 50.0,
+                );}
               }
               ),
               Container(
@@ -161,12 +177,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Container(
                     padding: EdgeInsets.all(25),
                     child: Text(
-                      'Exlcusive Deals',
+                      Trans('Exlcusive Deals').tr,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
-                    ).tr(),
+                    ),
                   )
               ),
 

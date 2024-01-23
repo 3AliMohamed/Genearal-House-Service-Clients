@@ -18,10 +18,10 @@ class RegisterCubit extends Cubit<RegisterStates>{
 
 
   Future<void> register(String email, String password, String name,
-      String phone, String age, String address, String gender,
+      String phone,  String gender,
       String country_id,)
   async {
-    Map<String,dynamic> response= await RegisterRepository.register(email, password, name, phone, age, address, gender, country_id);
+    Map<String,dynamic> response= await RegisterRepository.register(email, password, name, phone,  gender, country_id);
     if(response['status']==true){
       // log(" ksdgfjg");
       emit(RegisterSuccessState());

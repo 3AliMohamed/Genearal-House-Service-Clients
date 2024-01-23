@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:general_house_service_clients/data_layer/web_services/category_web_services.dart';
 
-import '../models/category_response.dart';
+import '../models/responses/category_response.dart';
 
 class CategoryRepository{
   static final CategoryRepository _singleton = CategoryRepository._internal();

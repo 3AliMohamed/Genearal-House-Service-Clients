@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:general_house_service_clients/presentation_layer/widgets/reusable_widgets.dart';
+import 'package:get/get.dart';
 import '../../business_logic_layer/cubit/authentication/login_cubit/cubit.dart';
 import '../../business_logic_layer/cubit/authentication/login_cubit/states.dart';
 import '../../component/Colors.dart';
@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorBorder),
                 ),
-                hintText: ('Email').tr(),
+                hintText: Trans('Email').tr,
                 hintStyle: TextStyle(
                   color: userAndPassword,
                   fontSize: 30.sp,
@@ -98,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: colorBorder),
                     ),
-                    hintText: ('Password').tr(),
+                    hintText: Trans('Password').tr,
                     hintStyle: TextStyle(
                       color: userAndPassword,
                       fontSize: 30.sp,
@@ -121,11 +121,11 @@ class _LoginPageState extends State<LoginPage> {
                     Navigator.of(context).pushNamed('/forget_password');
                   },
                   child: Text(
-                    'forget your password?',
+                    Trans('forget your password?').tr,
                     style: TextStyle(
                       color: Colors.white,
                     ),
-                  ).tr(),
+                  ),
                 ),
               ],
             ),
@@ -161,9 +161,9 @@ class _LoginPageState extends State<LoginPage> {
                         .login(_email_controller.text, _password_controller.text);
                   },
                   child: Text(
-                    'Login',
+                    Trans('Login').tr,
                     style: TextStyle(color: Colors.white),
-                  ).tr(),
+                  ),
                 ),
               ),
             ),
@@ -173,10 +173,10 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 width: 10.w,
               ),
-              Text(('don\'t have an account ?'),
+              Text(Trans('don\'t have an account ?').tr,
                   style: TextStyle(
                     color: userAndPassword,
-                  )).tr(),
+                  )),
               SizedBox(
                 width: 10.w,
               ),
@@ -189,10 +189,10 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   );
                 },
-                child: Text(('Signup'),
+                child: Text(Trans('Signup').tr,
                     style: TextStyle(
                       color: Colors.white,
-                    )).tr(),
+                    )),
               ),
             ]),
           ],

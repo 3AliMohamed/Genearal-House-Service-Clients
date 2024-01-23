@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -56,7 +55,7 @@ class _VerificationcodeState extends State<Verificationcode> {
                 focusedBorder:UnderlineInputBorder(
                   borderSide: BorderSide(color:colorBorder),
                 ) ,
-                hintText: tr('Enter Verification Code'),
+                hintText: Trans('Enter Verification Code').tr,
                 hintStyle: TextStyle(color: userAndPassword,fontSize: 30.sp,),
                 prefixIcon:Image.asset('assets/images/user (3).png',
                   // height: MediaQuery.of(context).size.height*0.09,
@@ -80,7 +79,7 @@ class _VerificationcodeState extends State<Verificationcode> {
                     )
                 ),
                 onPressed: () {},
-                child: Text(tr('Next Step'),style: TextStyle(fontSize: 30,color: Colors.white)),
+                child: Text(Trans('Next Step').tr,style: TextStyle(fontSize: 30,color: Colors.white)),
               ),
             ),
             Spacer(),

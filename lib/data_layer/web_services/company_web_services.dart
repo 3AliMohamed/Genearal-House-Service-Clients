@@ -19,7 +19,7 @@ class CompanyWebServices{
       'Accept-Language': 'ar',
       'api-token': 'gh-general'
     };
-    var request = http.Request('GET', Uri.parse('${ApiUrls().apiCategory}/$categoryId/company'));
+    var request = http.Request('GET', Uri.parse('${ApiUrls().apiCategory}/$categoryId/company_with_categories'));
 
     request.headers.addAll(headers);
 
@@ -27,6 +27,7 @@ class CompanyWebServices{
 
     if (response.statusCode == 200) {
      dynamic compResponse= await response.stream.bytesToString();
+     // log(compResponse);
      return compResponse ;
     }
     else {

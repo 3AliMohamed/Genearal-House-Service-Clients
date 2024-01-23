@@ -11,7 +11,6 @@ class RegisterWebServices {
 
   static  Future<dynamic> register(String email, String password,
       String name, String phone,
-      String age, String address,
       String gender, String country_id
       )
   async {
@@ -22,8 +21,8 @@ class RegisterWebServices {
       'password': password,
       'name': name,
       'phone': phone,
-      'age': age,
-      'address': address,
+      'age': '12',
+      'address': 'mfkmokfmw',
       'gender': gender,
       'country id': country_id
     });

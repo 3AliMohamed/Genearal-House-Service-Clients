@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:general_house_service_clients/reusable/app_bar.dart';
+import 'package:get/get.dart';
 
 import '../business_logic_layer/cubit/app_cubit/cubit.dart';
 import '../reusable/bottom_navigation_bar.dart';
@@ -79,14 +80,15 @@ class _LoadingScreen extends State<LoadingScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(
-              color: Color(0xffD3D3D3) ,
-            ), // Loading icon
+              SpinKitFadingCube(
+            color: Color(0xffB4AFAF),
+          size: 50.0,
+        ),// Loading icon
             SizedBox(height: 10.0),
             Text(
-              'Please wait, loading...',
+              Trans('Please wait, loading...').tr,
               style: TextStyle(fontSize: 16.0,color: Colors.white),
-            ).tr(),
+            ),
           ],
         ),
       )

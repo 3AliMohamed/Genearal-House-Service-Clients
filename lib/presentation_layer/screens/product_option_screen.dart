@@ -1,16 +1,17 @@
 import 'dart:developer';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:general_house_service_clients/presentation_layer/widgets/reusable_widgets.dart';
 import 'package:get/get.dart';
 
 import '../../business_logic_layer/cubit/addProduct/add_product_cubit.dart';
 import '../../business_logic_layer/cubit/addProduct/add_product_states.dart';
 import '../../business_logic_layer/cubit/app_cubit/cubit.dart';
-import '../../data_layer/models/product_reposnse.dart';
+import '../../business_logic_layer/cubit/cart/cubit.dart';
+import '../../data_layer/models/responses/product_reposnse.dart';
 import '../../data_layer/models/requests/AddItemToOrderRequest.dart';
 import '../../helpers/SharedPrefManager.dart';
 import '../../reusable/app_bar.dart';
@@ -28,7 +29,7 @@ class ProductOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String currentLang = context.locale.toString();
+    String? currentLang = SharedPreferencesManager.getString('lang');
  return  BlocConsumer<AddProductCubit,AddProductStates>
    (listener: (context,state){
      if (state is PlacedSuccessfullyState)
@@ -38,31 +39,47 @@ class ProductOption extends StatelessWidget {
         },
         builder: (context,state){
         if(state is PlacingOrderState)
-          {return CircularProgressIndicator();}
+          {return  SpinKitFadingCube(
+            color: Color(0xffB4AFAF),
+            size: 50.0,
+          );}
         else {
           return Scaffold(
-              bottomNavigationBar: BottomNavigationBar(
-                items: AppCubit.get(context).buildBottomNavItems(),
-                onTap: (index) =>
-                    AppCubit.get(context).navigateOnTab(context, index),
-                currentIndex: AppCubit
-                    .get(context)
-                    .selectedTap,
-                selectedFontSize: 10.sp,
-                unselectedFontSize: 10.sp,
-                unselectedItemColor: Colors.blueGrey,
-                selectedItemColor: Colors.blueGrey,
-                type: BottomNavigationBarType.fixed,
-                backgroundColor: Color(0XFF202020),
+              bottomNavigationBar:Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0xff0083F7).withOpacity(0.8),
+                      // spreadRadius: -20,
+                    ),
+                    BoxShadow(
+                      color: Color(0xff06083D),
+                      // Color(0xff06083D).withOpacity(0.9),
+                      spreadRadius: -20,
+                      blurRadius: 20,
+                      offset: Offset(20, 10),
+                      // blurStyle: BlurStyle.solid
+                    )
+                  ],
+                ),
+                child: PhysicalModel(
+                  color: Color(0xff06083D).withOpacity(0.6),
+                  elevation: 5.0, // Adjust the elevation as needed
+                  // borderRadius: BorderRadius.circular(10.0), // Adjust the border radius as needed
+                  child: BottomNavigationBar(
+                    items: AppCubit.get(context).buildBottomNavItems(),
+                    onTap: (index) => AppCubit.get(context).navigateOnTab(context, index),
+                    currentIndex: AppCubit.get(context).selectedTap,
+                    selectedFontSize: 10.sp,
+                    unselectedFontSize: 10.sp,
+                    unselectedItemColor: Colors.blueGrey,
+                    selectedItemColor: Colors.blueGrey,
+                    type: BottomNavigationBarType.fixed,
+                    backgroundColor: Colors.transparent, // Set background color to transparent
+                  ),
+                ),
               ),
-              appBar: CustomAppBar(
-                onUserIconPressed: () {
-                  Navigator.of(context).pushNamed('/drawer_screen');
-                },
-                onLoginPressed: () {
-                  Navigator.of(context).pushNamed('/login');
-                },
-              ),
+              appBar: CustomAppBar(),
               body: Container(
                 height: ScreenUtil().screenHeight,
                 decoration: BoxDecoration(
@@ -169,9 +186,7 @@ class ProductOption extends StatelessWidget {
                                                         .circular(2),
                                                   ),
                                                   width: 30.w,
-                                                  child: BlocBuilder<
-                                                      AddProductCubit,
-                                                      AddProductStates>(
+                                                  child: BlocBuilder<AddProductCubit, AddProductStates>(
                                                     builder: (context, state) {
                                                       return Center(
                                                         child: Text(
@@ -210,10 +225,10 @@ class ProductOption extends StatelessWidget {
                                                     Navigator.of(context).pop();
                                                   },
                                                   child: Text(
-                                                    'Cancel',
+                                                    Trans('Cancel').tr,
                                                     style: TextStyle(
                                                         color: Colors.black),
-                                                  ).tr(),
+                                                  ),
                                                 ),
                                                 SizedBox(width: 16.w),
                                                 TextButton(
@@ -227,11 +242,11 @@ class ProductOption extends StatelessWidget {
                                                     Navigator.of(context).pop();
                                                   },
                                                   child: Text(
-                                                    'Done',
+                                                   Trans('Done').tr,
                                                     style: TextStyle(
                                                       color: Color(
                                                           0XFF0EC2D1),),
-                                                  ).tr(),
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -269,8 +284,16 @@ class ProductOption extends StatelessWidget {
                         child: ElevatedButton
                           (
                             onPressed: () {
-                              AddProductCubit.get(context).addOrder(companyId);
-
+                              if(SharedPreferencesManager.containKey('token')==true) {
+                                log("token");
+                                final cartCubit = BlocProvider.of<CartCubit>(context);
+                                cartCubit.reset(); // Call the reset function
+                                AddProductCubit.get(context).addOrder(
+                                    companyId);
+                              }else{
+                                log('not token');
+                                showToast('You Should Log In First');
+                              }
                               // Navigator.of(context).pushNamed("/cart");
                             },
                             style: ElevatedButton.styleFrom(
@@ -280,11 +303,11 @@ class ProductOption extends StatelessWidget {
                               shadowColor: Color(0xff16747C),
                             ),
                             child: Container(
-                              child: Text('Add',
+                              child: Text(Trans('Add').tr,
                                 style: TextStyle(color: Colors.white,
                                   fontSize: 20,
                                 ),
-                              ).tr(),
+                              ),
                             )
                         ),
                       ),

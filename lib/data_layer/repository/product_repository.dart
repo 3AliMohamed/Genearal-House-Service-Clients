@@ -1,11 +1,12 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'dart:core';
 
 
-import 'package:general_house_service_clients/data_layer/models/product_reposnse.dart';
+
+import 'package:general_house_service_clients/data_layer/models/responses/product_reposnse.dart';
 import 'package:general_house_service_clients/data_layer/web_services/product_web_services.dart';
 
-import '../models/company_response.dart';
+import '../models/responses/company_response.dart';
 class ProductRepository{
   static final ProductRepository _singleton = ProductRepository._internal();
 
@@ -14,20 +15,17 @@ class ProductRepository{
   }
   ProductRepository._internal();
 
-  static Future<dynamic> getProduct(int categoryId, int companyId)
+  static Future<List<ProductData>?> getProduct(int categoryId, int companyId)
   async{
-    List<dynamic> products=[];
+    // ProductData products;
     dynamic productResponseDynamic =await ProductWebServices.getProduct(categoryId, companyId);
       Map<String,dynamic> response= jsonDecode(productResponseDynamic);
-      if(response['status']==true)
-        {
-          products=response['data'].map((product)=> ProductData.fromJson(product)).toList();
-          return products;
-        }
-      else
-        {
-          return null;
-        }
+    if (response['status'] == true) {
+      List<ProductData> products = (response['data'] as List<dynamic>).map<ProductData>((product) => ProductData.fromJson(product)).toList();
+      return products;
+    } else {
+      return null;
+    }
 
   }
 

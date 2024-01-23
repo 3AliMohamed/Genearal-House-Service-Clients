@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -67,7 +66,7 @@ class _SignupPageState extends State<SignupPage> {
                   focusedBorder:UnderlineInputBorder(
                     borderSide: BorderSide(color:colorBorder),
                   ) ,
-                  hintText: tr('user name'),
+                  hintText: Trans('user name').tr,
                   hintStyle: TextStyle(color: userAndPassword,fontSize: 30.sp,),
                   prefixIcon:Image.asset('assets/images/user (2).png',
 
@@ -86,7 +85,7 @@ class _SignupPageState extends State<SignupPage> {
                   focusedBorder:UnderlineInputBorder(
                     borderSide: BorderSide(color:colorBorder),
                   ) ,
-                  hintText: tr('Phone'),
+                  hintText: Trans('Phone').tr,
                   hintStyle: TextStyle(color: userAndPassword,fontSize: 30.sp,),
                   prefixIcon:Image.asset('assets/images/user (2).png',
 
@@ -94,43 +93,43 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
               SizedBox(height:10.h,),
-              TextFormField(
-                controller: _address_controller ,
-                keyboardType: TextInputType.streetAddress,
-                style: TextStyle(color: userAndPassword),
-                decoration: InputDecoration(
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color:colorBorder),
-                  ),
-                  focusedBorder:UnderlineInputBorder(
-                    borderSide: BorderSide(color:colorBorder),
-                  ) ,
-                  hintText: tr('Address'),
-                  hintStyle: TextStyle(color: userAndPassword,fontSize: 30.sp,),
-                  prefixIcon:Image.asset('assets/images/user (2).png',
-
-                  ),
-                ),
-              ),
-              SizedBox(height:10.h,),
-              TextFormField(
-                controller: _age_controller,
-                keyboardType: TextInputType.number,
-                style: TextStyle(color: userAndPassword),
-                decoration: InputDecoration(
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color:colorBorder),
-                  ),
-                  focusedBorder:UnderlineInputBorder(
-                    borderSide: BorderSide(color:colorBorder),
-                  ) ,
-                  hintText: tr('Age'),
-                  hintStyle: TextStyle(color: userAndPassword,fontSize: 30.sp,),
-                  prefixIcon:Image.asset('assets/images/user (2).png',
-
-                  ),
-                ),
-              ),
+              // TextFormField(
+              //   controller: _address_controller ,
+              //   keyboardType: TextInputType.streetAddress,
+              //   style: TextStyle(color: userAndPassword),
+              //   decoration: InputDecoration(
+              //     enabledBorder: UnderlineInputBorder(
+              //       borderSide: BorderSide(color:colorBorder),
+              //     ),
+              //     focusedBorder:UnderlineInputBorder(
+              //       borderSide: BorderSide(color:colorBorder),
+              //     ) ,
+              //     hintText: Trans('Address').tr,
+              //     hintStyle: TextStyle(color: userAndPassword,fontSize: 30.sp,),
+              //     prefixIcon:Image.asset('assets/images/user (2).png',
+              //
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(height:10.h,),
+              // TextFormField(
+              //   controller: _age_controller,
+              //   keyboardType: TextInputType.number,
+              //   style: TextStyle(color: userAndPassword),
+              //   decoration: InputDecoration(
+              //     enabledBorder: UnderlineInputBorder(
+              //       borderSide: BorderSide(color:colorBorder),
+              //     ),
+              //     focusedBorder:UnderlineInputBorder(
+              //       borderSide: BorderSide(color:colorBorder),
+              //     ) ,
+              //     hintText: Trans('Age').tr,
+              //     hintStyle: TextStyle(color: userAndPassword,fontSize: 30.sp,),
+              //     prefixIcon:Image.asset('assets/images/user (2).png',
+              //
+              //     ),
+              //   ),
+              // ),
 
               // SizedBox(height:MediaQuery.of(context).size.height*0.03,),
               SizedBox(height:10.h,),
@@ -145,7 +144,7 @@ class _SignupPageState extends State<SignupPage> {
                   focusedBorder:UnderlineInputBorder(
                     borderSide: BorderSide(color:colorBorder),
                   ) ,
-                  hintText: tr('Email Address'),
+                  hintText: Trans('Email Address').tr,
                   hintStyle: TextStyle(color: userAndPassword,fontSize: 30.sp,),
                   prefixIcon:Image.asset('assets/images/email.png',
                   ),
@@ -176,7 +175,7 @@ class _SignupPageState extends State<SignupPage> {
                      focusedBorder:UnderlineInputBorder(
                        borderSide: BorderSide(color:colorBorder),
                      ) ,
-                     hintText: tr('Password'),
+                     hintText: Trans('Password').tr,
                      hintStyle: TextStyle(color: userAndPassword,fontSize:  30.sp,),
                      prefixIcon:Image.asset('assets/images/padlock (2).png',
                        // height: MediaQuery.of(context).size.height*0.09,
@@ -211,7 +210,7 @@ class _SignupPageState extends State<SignupPage> {
                      focusedBorder:UnderlineInputBorder(
                        borderSide: BorderSide(color:colorBorder),
                      ) ,
-                     hintText: tr('Confirm Password'),
+                     hintText: Trans('Confirm Password').tr,
                      hintStyle: TextStyle(color: userAndPassword,fontSize: 30.sp,),
                      prefixIcon:Image.asset('assets/images/Component 1 – 1.png',
                        // height: MediaQuery.of(context).size.height*0.09,
@@ -231,7 +230,7 @@ class _SignupPageState extends State<SignupPage> {
                   // height:45.h,
                   // height:MediaQuery.of(context).size.height*0.5 ,
                   child:
-                  Text(tr('Select a country'),style:TextStyle(color: userAndPassword,fontSize: 30.sp,),),
+                  Text(Trans('Select a country').tr,style:TextStyle(color: userAndPassword,fontSize: 30.sp,),),
                 ),
                 decoration: InputDecoration(
                   enabledBorder: UnderlineInputBorder(
@@ -264,7 +263,7 @@ class _SignupPageState extends State<SignupPage> {
                   return Row(
                     children: [
                       SizedBox(width: 15.w,),
-                      Text('Gender', style: TextStyle(color: Colors.white,fontSize: 20.sp,)).tr(),
+                      Text(Trans('Gender').tr, style: TextStyle(color: Colors.white,fontSize: 20.sp,)),
                       SizedBox(width: 20.w,),
                       Radio(
                         activeColor: Color(0xff14676D),
@@ -274,7 +273,7 @@ class _SignupPageState extends State<SignupPage> {
                           RegisterCubit.get(context).changeGender(value.toString());
                         },
                       ),
-                      Text('Male',style: TextStyle(color: Colors.white),).tr(),
+                      Text(Trans('Male').tr,style: TextStyle(color: Colors.white),),
                       SizedBox(width: 70.w,),
                       Radio(
                         activeColor: Color(0xff14676D),
@@ -284,7 +283,7 @@ class _SignupPageState extends State<SignupPage> {
                          RegisterCubit.get(context).changeGender(value.toString());
                         },
                       ),
-                      Text('Female',style: TextStyle(color: Colors.white),).tr(),
+                      Text(Trans('Female').tr,style: TextStyle(color: Colors.white),),
 
                     ],
                   );
@@ -318,12 +317,12 @@ class _SignupPageState extends State<SignupPage> {
                           _controllerPassword.text,
                           _name_controller.text,
                           _phone_controller.text,
-                          _age_controller.text,
-                          _address_controller.text,
+                          // _age_controller.text,
+                          // _address_controller.text,
                           RegisterCubit.get(context).gender,
                           '19');
                     },
-                    child: Text('Signup',style: TextStyle(fontSize: 30.sp, color: Colors.white)).tr(),
+                    child: Text(Trans('Signup').tr,style: TextStyle(fontSize: 30.sp, color: Colors.white)),
                   ),
                 ),
                 ),
@@ -337,10 +336,10 @@ class _SignupPageState extends State<SignupPage> {
                     // SizedBox(width:MediaQuery.of(context).size.width*0.07,),
                     Text(
                     // '${ anasHere.counter}',
-                        'already have an account ?',
+                        Trans('already have an account ?').tr,
                         style: TextStyle(color: userAndPassword,)
 
-                    ).tr(),
+                    ),
                     SizedBox(width:8.w,),
                     // SizedBox(width:MediaQuery.of(context).size.width*0.03,),
                     GestureDetector(
@@ -348,10 +347,10 @@ class _SignupPageState extends State<SignupPage> {
                         Navigator.of(context).pushNamed('/login');
                       },
                       child: Text(
-                          'Signin',
+                          Trans('Signin').tr,
                           style: TextStyle(color: Colors.white,)
 
-                      ).tr(),
+                      ),
                     ),
 
                     // IconButton(onPressed: (){   // for testing provider between two screens

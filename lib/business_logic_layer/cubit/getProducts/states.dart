@@ -4,9 +4,12 @@ class InitialState extends ProductStates{}
 
 class LoadingState extends ProductStates{}
 
+class UpdatePercentageSuccess extends ProductStates{}
+
+
 class LoadedSuccessfullyState extends ProductStates {
-  dynamic products;
-  LoadedSuccessfullyState(this.products);
+  // dynamic products;
+  LoadedSuccessfullyState();
 }
 
 class LoadedErrorState extends ProductStates{

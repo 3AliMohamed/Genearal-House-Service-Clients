@@ -1,6 +1,6 @@
 abstract class AddProductStates{}
 
-class InitialState extends AddProductStates{}
+class AddProductInitialState extends AddProductStates{}
 
 class IncrementQuantity extends AddProductStates{}
 

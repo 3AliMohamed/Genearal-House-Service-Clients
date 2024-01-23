@@ -16,14 +16,7 @@ class _AboutUsState extends State<AboutUs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomAppBar(
-          onUserIconPressed: () {
-            Navigator.of(context).pushNamed('/drawer_screen');
-          },
-          onLoginPressed: () {
-            Navigator.of(context).pushNamed('/login');
-          },
-        ),
+        appBar: CustomAppBar(),
       bottomNavigationBar: BottomNavigationBar(
         items: AppCubit.get(context).buildBottomNavItems(),
         onTap: (index) => AppCubit.get(context).navigateOnTab(context, index),

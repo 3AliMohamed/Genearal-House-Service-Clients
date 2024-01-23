@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:general_house_service_clients/helpers/SharedPrefManager.dart';
 
-import '../../models/login_response.dart';
+import '../../models/responses/login_response.dart';
 import '../../web_services/authentication/login_web_services.dart';
 
 class LogInRepository{
@@ -34,7 +34,7 @@ class LogInRepository{
         SharedPreferencesManager.setString('token', login_response.data!.token.toString());
         SharedPreferencesManager.setString('email', login_response.data!.email.toString());
         SharedPreferencesManager.setString('password', password);
-        SharedPreferencesManager.setString('lang', 'English');
+        SharedPreferencesManager.setString('lang', 'en');
 
         SharedPreferencesManager.setBool('is_login',true);
 

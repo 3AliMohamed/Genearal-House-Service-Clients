@@ -7,9 +7,8 @@ class AddItemToOrderRequest {
   AddItemToOrderRequest({required this.addItemToOrderRequestItems, required this.companyId});
 
 
-
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['company_id'] = this.companyId;
 
     if (this.addItemToOrderRequestItems != null) {

@@ -6,9 +6,9 @@ import 'package:general_house_service_clients/helpers/SharedPrefManager.dart';
 
 
 class RegisterRepository{
-  static Future<Map<String, dynamic>> register(String email, String password, String name, String phone, String age, String address, String gender, String country_id )
+  static Future<Map<String, dynamic>> register(String email, String password, String name, String phone,  String gender, String country_id )
   async{
-    final registerresponse = await RegisterWebServices.register(email, password, name, phone, age, address, gender, country_id);
+    final registerresponse = await RegisterWebServices.register(email, password, name, phone,  gender, country_id);
     // print(registerresponse.runtimeType);
     Map<String,dynamic> response_json=jsonDecode(registerresponse);
     return response_json;

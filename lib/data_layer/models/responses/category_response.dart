@@ -1,4 +1,4 @@
-import 'dtos/Category.dart';
+import '../dtos/Category.dart';
 
 class CategoryResponse {
   bool? status;

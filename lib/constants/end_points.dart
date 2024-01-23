@@ -23,6 +23,19 @@ class ApiUrls {
 
   final  String updateProfile= 'https://dev.generalhouseservices.com/api/client/update_profile';
 
+  final  String getAddress= 'https://dev.generalhouseservices.com/api/client_location';
+
+  final  String checkOut= 'https://dev.generalhouseservices.com/api/checkout';
+
+  final  String addAddress= 'https://dev.generalhouseservices.com/api/client_location';
+
+  final  String myOrders= 'https://dev.generalhouseservices.com/api/order/client';
+
+  final  String deleteAddress= 'https://dev.generalhouseservices.com/api/client_location/';
+
+  final  String getCompany= 'https://dev.generalhouseservices.com/api/company/';
+
+
 
 
 
