@@ -10,27 +10,26 @@ import '../../../data_layer/repository/deleteAddress_repository.dart';
 
 class GetAddressCubit extends Cubit<GetAddressStates>{
 
-  GetAddressCubit(): super( InitialState());
-bool isChecked =false;
- late List<bool> checkedItems;
+  GetAddressCubit(): super(InitialState());
+  bool isChecked =false;
+  List<bool> checkedItems=[];
   static GetAddressCubit get(context)=> BlocProvider.of(context);
 
-   List<Data>? addressResponse;
+  List<Data>? addressResponse;
 
   void getAddress()
   async{
     try {
       final response = await GetAddressRepository.getAddress();
-        addressResponse=response.data!;
+      addressResponse=response.data!;
+      this.checkedItems = List.generate(addressResponse!.length, (index) => false);
+
       emit(FetchAddressSuccess());
     }catch(error){
       emit(FetchAddressFailed());
     }
-    }
+  }
 
-    void initializeCheckedIndexList(){
-       checkedItems = List.generate(addressResponse!.length, (index) => false);
-    }
   void deleteAddress(String id)
   async{
     emit(Loading());
@@ -39,10 +38,18 @@ bool isChecked =false;
 
     response ==true? emit(DeletedAddressSuccessfully()) : emit(DeletedAddressError());
   }
-  void checked(value,int index){
-    checkedItems[index]=!checkedItems[index];
+  void checked(value, index){
+    checkedItems = List.generate(checkedItems.length, (index) => false);
+    log("checkedItems[index] in cubit"+this.checkedItems[index].toString());
+    this.checkedItems[index]=value;
+    // isChecked = value!;
+    log("in checked cubit:"+this.checkedItems[index].toString());
     emit(CheckboxUpdated());
-    // return isChecked;
   }
 
+  void reset()
+  {
+    addressResponse=[];
+    emit(InitialState());
+  }
 }

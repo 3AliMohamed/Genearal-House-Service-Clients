@@ -62,7 +62,7 @@ List<String> prefixIcons=
     'office':'assets/images/office_white.png',
     'other':''
   };
-  String? gender='female';
+  String? gender='male';
   @override
   void initState(){
 
@@ -81,6 +81,8 @@ List<String> prefixIcons=
       log(SharedPreferencesManager.getString('name').toString());
       // log("name :"+controllers['name_controller']!.text.toString());
     }
+    log("gender" +gender.toString());
+    log("ali"+SharedPreferencesManager.getString('gender').toString());
   }
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileCubit,ProfileStates>(
@@ -187,81 +189,14 @@ List<String> prefixIcons=
                         ),
                         SizedBox(height: 20.h,),
                         Container(
-                          height: 270.h,
+                          height: 300.h,
                           child: ListView.separated(
                               itemBuilder: (context,index)=> buildTextFormFieldProfileScreen(
                                   controllers[controllers.entries.elementAt(index).key]!, hintTexts[index],prefixIcons[index]),
                               separatorBuilder: (context,index)=> SizedBox(height: 10.h,),
                               itemCount: controllers.length),
                         ),
-                        SizedBox(
-                          height: 200.h,
-                          child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            itemCount: ProfileCubit.get(context).clientLocationsMap[0]?.length,
-                            itemBuilder: (context, index)
-                            {
-                              log(ProfileCubit.get(context).clientLocationsMap[0]![index].locationType.toString());
-                              return InkWell(
-                                onTap: (){
-                                  // setState(() {
-                                  //   isTaped=!isTaped;
-                                  //   chosenAddress={'id':'${GetAddressCubit.get(context).addressResponse![index].id.toString()}' ,
-                                  //     'locationType':'${GetAddressCubit.get(context).addressResponse![index].locationType!}',
-                                  //     'detailedAddress':'${GetAddressCubit.get(context).addressResponse![index].detailedAddress!}'
-                                  //   };
-                                  // });
-                                },
-                                // hoverColor: Colors.red,
-                                child: Container(
-                                  margin: EdgeInsets.only(bottom: 5.sp,top: 10.sp,right: 5.sp,left: 5.sp),
-                                  padding: EdgeInsets.all(5.sp),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white ,
-                                    borderRadius: BorderRadius.circular(5.sp),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
 
-                                              Image.asset(locationType[ProfileCubit.get(context).clientLocationsMap[0]![index].locationType.toString()]!,width: 50.w,height: 50.h,),
-                                              Text(ProfileCubit.get(context).clientLocationsMap[0]![index].locationType!)
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text("Edit"),
-                                              Icon(
-                                                  Icons.edit
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ) ,
-                                      Divider(color: Colors.black,),
-                                      Container(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text("Address"),
-                                            Text(ProfileCubit.get(context).clientLocationsMap[0]![index].detailedAddress!,
-                                              style: TextStyle(fontSize: 15.sp),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-
-                                    ],
-                                  ),
-                                ),
-                              );
-                            } ,
-                          ),
-                        ),
                         SizedBox(height: 20.h,),
                         buildGenderCheckBox(gender!, (value) {}),
                         Text(
@@ -271,6 +206,7 @@ List<String> prefixIcons=
                         buildTextFormFieldProfileScreen(password_controller, " ",prefixIcons[4]),
                         Text(Trans('Confirm Password').tr,style: TextStyle(color: Colors.white),),
                         buildTextFormFieldProfileScreen(confirm_password_controller, " ",prefixIcons[5]),
+                        SizedBox(height: 100.h,),
                         InkWell(
                           onTap: (){
 
@@ -294,7 +230,18 @@ List<String> prefixIcons=
                             width: 300.w,
                             height: 37.h,
                             decoration:  BoxDecoration(
-                              color: Color(0xff157A82),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0xff0083F7),
+                                ),
+                                BoxShadow(
+                                  color: Color.fromRGBO(0,0, 0, 0.9),
+                                  spreadRadius: -3,
+                                  blurRadius: 15,
+                                  offset: Offset(5,5),
+                                  // blurStyle: BlurStyle.solid
+                                )
+                              ],
                               borderRadius: BorderRadius.circular(10.sp),
                             ),
                             child: Text(Trans('Update').tr,

@@ -2,14 +2,15 @@
 class AddItemToOrderRequest {
 
   List<AddItemToOrderRequestItem> addItemToOrderRequestItems;
-  int companyId;
-
-  AddItemToOrderRequest({required this.addItemToOrderRequestItems, required this.companyId});
+  int? companyId;
+  int? deliveryTypeId;
+  AddItemToOrderRequest({required this.addItemToOrderRequestItems, required this.companyId,required this.deliveryTypeId});
 
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['company_id'] = this.companyId;
+    data['delivery_type_id'] = this.deliveryTypeId;
 
     if (this.addItemToOrderRequestItems != null) {
     data['items'] = this.addItemToOrderRequestItems.map((e) => e.toJson()).toList();
@@ -20,7 +21,8 @@ class AddItemToOrderRequest {
 
   void reset(){
     addItemToOrderRequestItems.clear();
-    companyId=0;
+    companyId=null;
+    deliveryTypeId=null;
   }
 }
 

@@ -28,7 +28,6 @@ class GetAddressWebServices{
 
     if (response.statusCode == 200) {
       String responseAddress=await response.stream.bytesToString();
-      log(responseAddress);
       return responseAddress;
     }
     else {

@@ -199,9 +199,12 @@ class CartDetails extends StatelessWidget {
                                                   // Navigator.of(context).pushNamed('/loading_screen');
                                                 },
                                                 child: IconButton(
-                                                  onPressed: () {},
-                                                  icon: Icon(Icons
-                                                      .highlight_remove_rounded
+                                                  onPressed: () {
+                                                    CartCubit.get(context).deleteItemFromCart(
+                                                    CartCubit.get(context).responseData![dataIndex].orderId.toString(),
+                                                        CartCubit.get(context).responseData![dataIndex].order!.items![index].product!.productOption!.id.toString());
+                                                  },
+                                                  icon: Icon(Icons.highlight_remove_rounded
                                                   ),)
                                             ),
                                           ),
@@ -373,14 +376,14 @@ class CartDetails extends StatelessWidget {
             return Scaffold(
                 bottomNavigationBar: BottomNavigationBar(
                 items: AppCubit.get(context).buildBottomNavItems(),
-          onTap: (index) => AppCubit.get(context).navigateOnTab(context, index),
-          currentIndex: AppCubit.get(context).selectedTap,
-        selectedFontSize: 10.sp,
-        unselectedFontSize: 10.sp,
-        unselectedItemColor: Colors.blueGrey,
-        selectedItemColor: Colors.blueGrey,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Color(0XFF202020),
+                    onTap: (index) => AppCubit.get(context).navigateOnTab(context, index),
+                    currentIndex: AppCubit.get(context).selectedTap,
+                    selectedFontSize: 10.sp,
+                    unselectedFontSize: 10.sp,
+                    unselectedItemColor: Colors.blueGrey,
+                    selectedItemColor: Colors.blueGrey,
+                    type: BottomNavigationBarType.fixed,
+                    backgroundColor: Color(0XFF202020),
         ),
           appBar: CustomAppBar(),
           body: Container());

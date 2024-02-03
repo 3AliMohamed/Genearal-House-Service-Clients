@@ -83,13 +83,13 @@ static CheckOutCubit get(context)=> BlocProvider.of(context);
 
 
     }
-  double calculateTotalOrderPrice(List<dynamic> orderPrices) {
+  num calculateTotalOrderPrice(List<dynamic> orderPrices) {
     if (orderPrices.isEmpty) {
       return 0.0; // Return 0 if the list is empty
     }
 
     // Use fold to calculate the sum of the order prices
-    return orderPrices.fold(0.0, (double sum, dynamic orderPrice) {
+    return orderPrices.fold(0.0, (num sum, dynamic orderPrice) {
       if (orderPrice is num) {
         return sum + orderPrice.toDouble(); // Add the order price to the sum
       } else {

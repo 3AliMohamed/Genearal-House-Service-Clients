@@ -9,8 +9,10 @@ import 'package:general_house_service_clients/business_logic_layer/cubit/authent
 import 'package:general_house_service_clients/business_logic_layer/cubit/cart/cubit.dart';
 import 'package:general_house_service_clients/business_logic_layer/cubit/categories/cubit.dart';
 import 'package:general_house_service_clients/business_logic_layer/cubit/getProducts/cubit.dart';
+import 'package:general_house_service_clients/business_logic_layer/cubit/get_company_relatedOffer/cubit.dart';
 import 'package:general_house_service_clients/business_logic_layer/cubit/home_page/cubit.dart';
 import 'package:general_house_service_clients/business_logic_layer/cubit/my_orders/cubit.dart';
+import 'package:general_house_service_clients/business_logic_layer/cubit/promo_code/cubit.dart';
 import 'package:general_house_service_clients/data_layer/repository/authentication/login_repository.dart';
 import 'package:general_house_service_clients/data_layer/web_services/authentication/login_web_services.dart';
 import 'package:general_house_service_clients/presentation_layer/screens/categories_company.dart';
@@ -91,6 +93,9 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => MyOrdersCubit()),
           // BlocProvider(create: (context) => ProductCubit()),
           BlocProvider(create: (context) => AddProductCubit()),
+          BlocProvider(create: (context) => GetCompanyCubit()),
+          BlocProvider(create: (context) => PromoCodeCubit()),
+
 
 
           // BlocProvider.value(value: LanguageCubit()),
@@ -118,7 +123,7 @@ class MyApp extends StatelessWidget {
                 '/drawer_screen': (context) => const DrawerScreen(),
                 '/profile': (context) => const Profile(),
                 '/my_orders': (context) => const MyOrders(),
-                '/add_new_address': (context) => const AddNewAddress(),
+                '/add_new_address': (context) =>  AddNewAddress(),
                 '/rate_order': (context) => const RateOrder(),
                 // '/checkout': (context) => const CheckOut(),
                 '/address': (context) =>  Address(),

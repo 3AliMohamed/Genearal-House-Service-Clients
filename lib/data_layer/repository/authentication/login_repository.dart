@@ -30,6 +30,8 @@ class LogInRepository{
         SharedPreferencesManager.setString('country', login_response.data!.countryId.toString());
         SharedPreferencesManager.setString('address', login_response.data!.address.toString());
         SharedPreferencesManager.setString('gender', login_response.data!.gender.toString());
+        log("gender from api"+login_response.data!.gender.toString());
+        log('gender from shred '+SharedPreferencesManager.getString('gender').toString());
         // SharedPreferencesManager.setString('password', login_response.data!..toString());
         SharedPreferencesManager.setString('token', login_response.data!.token.toString());
         SharedPreferencesManager.setString('email', login_response.data!.email.toString());

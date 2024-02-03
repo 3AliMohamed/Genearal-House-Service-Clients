@@ -7,9 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:general_house_service_clients/business_logic_layer/cubit/app_cubit/cubit.dart';
+import 'package:general_house_service_clients/business_logic_layer/cubit/get_company_relatedOffer/cubit.dart';
 import 'package:general_house_service_clients/business_logic_layer/cubit/home_page/cubit.dart';
 import 'package:general_house_service_clients/business_logic_layer/cubit/home_page/states.dart';
 import 'package:general_house_service_clients/constants/end_points.dart';
+import 'package:general_house_service_clients/data_layer/repository/get_company_relatedOffer_repository.dart';
+import 'package:general_house_service_clients/data_layer/web_services/get_company_relatedOffer.dart';
 import 'package:general_house_service_clients/presentation_layer/screens/categories_screen.dart';
 import 'package:general_house_service_clients/presentation_layer/widgets/reusable_widgets.dart';
 import 'package:get/get.dart';
@@ -202,11 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           return InkWell(
                             onTap: (){
                               int? companyId=state.response.offers![chosenOfferIndex!].companies![index].userId;
-                              log("company id :"+companyId.toString());
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context)=>
-                                      CategoriesScreen(companyId:companyId)));
-                              // Navigator.of(context).pushNamed('/products');
+                              GetCompanyCubit.get(context).getCompany(companyId!, context);
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),

@@ -35,6 +35,12 @@ class ApiUrls {
 
   final  String getCompany= 'https://dev.generalhouseservices.com/api/company/';
 
+  final  String promoCode= 'https://dev.generalhouseservices.com/api/add_promo_code_to_order';
+
+  final  String deleteItemFromCart= 'https://dev.generalhouseservices.com/api/remove_item_from_order';
+
+  final  String deleteCompanyFromCart= 'https://dev.generalhouseservices.com/api/remove_order_from_cart';
+
 
 
 

@@ -288,8 +288,8 @@ class ProductOption extends StatelessWidget {
                                 log("token");
                                 final cartCubit = BlocProvider.of<CartCubit>(context);
                                 cartCubit.reset(); // Call the reset function
-                                AddProductCubit.get(context).addOrder(
-                                    companyId);
+                                // AddProductCubit.get(context).addOrder(
+                                //     companyId);
                               }else{
                                 log('not token');
                                 showToast('You Should Log In First');

@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:general_house_service_clients/presentation_layer/screens/add_new_address.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
@@ -14,10 +17,10 @@ class ChooseFromMap extends StatefulWidget {
 class _ChooseFromMapState extends State<ChooseFromMap> {
   GoogleMapController? mapController;
   LocationData? currentLocation;
-  int selectedTab =1;
   @override
   void initState() {
     super.initState();
+
   }
 
   // Get the current location using the location package
@@ -100,14 +103,27 @@ class _ChooseFromMapState extends State<ChooseFromMap> {
           child:InkWell(
           onTap: (){
             getLocation();
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> AddNewAddress(long: currentLocation?.longitude,lat: currentLocation?.latitude,)));
           },
           child: Container(
             margin: EdgeInsets.only(top:50.sp,left: 70.sp),
             padding: EdgeInsets.all(1.sp),
             width: 280.w,
             height: 37.h,
-            decoration:  BoxDecoration(
-              color: Color(0xff157A82),
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0xff0083F7),
+                ),
+                BoxShadow(
+                  color: Color.fromRGBO(0,0, 0, 0.9),
+                  spreadRadius: -3,
+                  blurRadius: 10,
+                  offset: Offset(5,5),
+                  // blurStyle: BlurStyle.solid
+                )
+              ],
+              // color: Color(0xff157A82),
               borderRadius: BorderRadius.circular(5.sp),
             ),
             child: Text('Locate Me And Confirm Location',

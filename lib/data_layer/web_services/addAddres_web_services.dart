@@ -12,8 +12,8 @@ class AddAddressWebServices{
   AddAddressWebServices._internal();
 
   static Future<String> addAddress(String phone , String landLine, String streetName,
-      String floor,String building, String apartmentNumber, String detailedAddress,String additionalAddress,String locationType
-      )
+      String floor,String building, String apartmentNumber, String detailedAddress,String additionalAddress,String locationType,
+      double long,double lat)
   async{
     String? token =SharedPreferencesManager.getString('token');
     var headers = {
@@ -23,8 +23,8 @@ class AddAddressWebServices{
     };
     var request = http.MultipartRequest('POST', Uri.parse(ApiUrls().addAddress));
     request.fields.addAll({
-      'lat': '30.069589',
-      'long': '30.069589',
+      'lat': '$lat',
+      'long': '$long',
       'phone_number': phone,
       'location_type': locationType,
       'street': streetName,

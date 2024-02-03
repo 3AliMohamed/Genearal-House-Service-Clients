@@ -76,7 +76,11 @@ class AddProductWebServices {
     chosenOptions.forEach((key, value) {
       if (key == 'company_id') {
         request.fields[key] = value.toString();
-      } else if (key == 'items' && value is List) {
+      }
+      else if(key=='delivery_type_id'){
+        request.fields[key] = value.toString();
+      }
+      else if (key == 'items' && value is List) {
         for (var item in value) {
           if (item is Map<String, dynamic>) {
             item.forEach((subKey, subValue) {

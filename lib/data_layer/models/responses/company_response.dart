@@ -1,7 +1,7 @@
 class CompanyResponse {
   bool? status;
   List<Data>? data;
-  Null? message;
+  String? message;
 
   CompanyResponse({this.status, this.data, this.message});
 

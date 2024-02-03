@@ -44,7 +44,6 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
 
     return BlocConsumer<CartCubit,CartStates>(
-
                   listener: (context,state){
                     if (state is FetchDataErrorState){
                       // showToast(state.error.toString());
@@ -52,13 +51,21 @@ class _CartScreenState extends State<CartScreen> {
                     }
                   },
                 builder: (context,state){
-                  if(state is InitialState || state is LoadingState)
+                  if(state is InitialState )
                     {CartCubit.get(context).getCart();
                     return  SpinKitFadingCube(
                       color: Color(0xffB4AFAF),
                       size: 50.0,
-                    );}
-                  else if (state is FetchDataSuccessState)
+                    );
+                   }
+                  else if(state is LoadingState)
+                    {
+                      return  SpinKitFadingCube(
+                        color: Color(0xffB4AFAF),
+                        size: 50.0,
+                      );
+                    }
+                  else
                   {
                     return Scaffold(
                       bottomNavigationBar: Container(
@@ -275,60 +282,60 @@ class _CartScreenState extends State<CartScreen> {
                           )
                       )
                   );}
-                  else if(state is FetchDataErrorState){
-                    return Scaffold(
-                        bottomNavigationBar: BottomNavigationBar(
-                          items: AppCubit.get(context).buildBottomNavItems(),
-                          onTap: (index) => AppCubit.get(context).navigateOnTab(context, index),
-                          currentIndex: AppCubit.get(context).selectedTap,
-                          selectedFontSize: 10.sp,
-                          unselectedFontSize: 10.sp,
-                          unselectedItemColor: Colors.blueGrey,
-                          selectedItemColor: Colors.blueGrey,
-                          type: BottomNavigationBarType.fixed,
-                          backgroundColor: Color(0XFF202020),
-                        ),
-                        appBar: CustomAppBar(),
-                        body: Container(
-                          height: ScreenUtil().screenHeight,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/images/background.png"),
-                              fit: BoxFit.fitWidth,
-                            ),
-                          ),
-                       child: Center(
-                         child: Text(state.error.toString(),
-                           style: TextStyle(color: Colors.white, fontSize: 25),
-                         ),
-                       ),)
-                    );
-                  }
-                  else{
-                    return  Scaffold(
-                        bottomNavigationBar: BottomNavigationBar(
-                        items: AppCubit.get(context).buildBottomNavItems(),
-                        onTap: (index) => AppCubit.get(context).navigateOnTab(context, index),
-                        currentIndex: AppCubit.get(context).selectedTap,
-                        selectedFontSize: 10.sp,
-                        unselectedFontSize: 10.sp,
-                        unselectedItemColor: Colors.blueGrey,
-                        selectedItemColor: Colors.blueGrey,
-                        type: BottomNavigationBarType.fixed,
-                        backgroundColor: Color(0XFF202020),
-                  ),
-                  appBar: CustomAppBar(),
-                  body: Container(
-                    height: ScreenUtil().screenHeight,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/background.png"),
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
-                  )
-                    );
-                  }
+                  // else if(state is FetchDataErrorState){
+                  //   return Scaffold(
+                  //       bottomNavigationBar: BottomNavigationBar(
+                  //         items: AppCubit.get(context).buildBottomNavItems(),
+                  //         onTap: (index) => AppCubit.get(context).navigateOnTab(context, index),
+                  //         currentIndex: AppCubit.get(context).selectedTap,
+                  //         selectedFontSize: 10.sp,
+                  //         unselectedFontSize: 10.sp,
+                  //         unselectedItemColor: Colors.blueGrey,
+                  //         selectedItemColor: Colors.blueGrey,
+                  //         type: BottomNavigationBarType.fixed,
+                  //         backgroundColor: Color(0XFF202020),
+                  //       ),
+                  //       appBar: CustomAppBar(),
+                  //       body: Container(
+                  //         height: ScreenUtil().screenHeight,
+                  //         decoration: BoxDecoration(
+                  //           image: DecorationImage(
+                  //             image: AssetImage("assets/images/background.png"),
+                  //             fit: BoxFit.fitWidth,
+                  //           ),
+                  //         ),
+                  //      child: Center(
+                  //        child: Text(state.error.toString(),
+                  //          style: TextStyle(color: Colors.white, fontSize: 25),
+                  //        ),
+                  //      ),)
+                  //   );
+                  // }
+                  // else{
+                  //   return  Scaffold(
+                  //       bottomNavigationBar: BottomNavigationBar(
+                  //       items: AppCubit.get(context).buildBottomNavItems(),
+                  //       onTap: (index) => AppCubit.get(context).navigateOnTab(context, index),
+                  //       currentIndex: AppCubit.get(context).selectedTap,
+                  //       selectedFontSize: 10.sp,
+                  //       unselectedFontSize: 10.sp,
+                  //       unselectedItemColor: Colors.blueGrey,
+                  //       selectedItemColor: Colors.blueGrey,
+                  //       type: BottomNavigationBarType.fixed,
+                  //       backgroundColor: Color(0XFF202020),
+                  // ),
+                  // appBar: CustomAppBar(),
+                  // body: Container(
+                  //   height: ScreenUtil().screenHeight,
+                  //   decoration: BoxDecoration(
+                  //     image: DecorationImage(
+                  //       image: AssetImage("assets/images/background.png"),
+                  //       fit: BoxFit.fitWidth,
+                  //     ),
+                  //   ),
+                  // )
+                  //   );
+                  // }
                   },
               );
   }

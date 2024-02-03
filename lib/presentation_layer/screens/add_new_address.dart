@@ -6,11 +6,15 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:general_house_service_clients/business_logic_layer/cubit/add_address/cubit.dart';
 import 'package:general_house_service_clients/business_logic_layer/cubit/add_address/states.dart';
 import 'package:general_house_service_clients/presentation_layer/widgets/reusable_widgets.dart';
+import 'package:get/get.dart';
 import '../../business_logic_layer/cubit/app_cubit/cubit.dart';
+import '../../business_logic_layer/cubit/get_address/cubit.dart';
 import '../../reusable/app_bar.dart';
+import 'address.dart';
 class AddNewAddress extends StatefulWidget {
-  const AddNewAddress({Key? key}) : super(key: key);
-
+   AddNewAddress({super.key,this.long,this.lat});
+  double? long;
+  double? lat;
   @override
   State<AddNewAddress> createState() => _AddNewAddressState();
 }
@@ -37,7 +41,6 @@ class _AddNewAddressState extends State<AddNewAddress> {
     'apartment_num_controller': 'Apartment',
     'detailed_address_controller': 'Detailed Address',
     'additional_instruction_controller': 'Additional Instruction',
-
   };
   List<String> hintTexts=[
     'Phone Number +20',
@@ -49,7 +52,9 @@ class _AddNewAddressState extends State<AddNewAddress> {
     'Detailed Address',
     'Additional Instruction'
   ];
-
+  void initState() {
+    super.initState();
+  }
   bool isTaped=false;
 
   String chosen_delivery_address='';
@@ -74,7 +79,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
             color: Color(0xffB4AFAF),
             size: 50.0,
           );}
-        else {
+        else{
                return Scaffold(
               bottomNavigationBar:Container(
                 decoration: BoxDecoration(
@@ -145,21 +150,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                               style: TextStyle(
                                   color: Colors.white, fontSize: 20.sp),
                             ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context).pushNamed(
-                                    '/choose_from_map');
-                              },
-                              child: Text(
-                                'Select Location From Map',
-                                style: TextStyle(
-                                    fontSize: 17.sp,
-                                    decoration: TextDecoration.underline,
-                                    color: Color(0xff529DA5),
-                                    decorationColor: Color(0xff529DA5)
-                                ),
-                              ),
-                            )
+
                           ],
                         ),
                       ),
@@ -182,7 +173,14 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                   ),
                                   child: TextFormField(
                                     decoration: InputDecoration(
-
+                                      labelStyle: TextStyle(color: Colors.white),
+                                      // Set the border color if needed
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.white),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.white),
+                                      ),
                                       contentPadding: EdgeInsets.all(10.sp),
                                       hintText: hintTexts[index],
                                       fillColor: Colors.black.withOpacity(0.7),
@@ -195,9 +193,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
 
                                       ),
                                     ),
-                                    controller: controllers[controllers.entries
-                                        .elementAt(index)
-                                        .key]!,
+                                    controller: controllers[controllers.entries.elementAt(index).key]!,
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ),
                             separatorBuilder: (context, index) =>
@@ -377,6 +374,14 @@ class _AddNewAddressState extends State<AddNewAddress> {
                               ),
                               child: TextFormField(
                                 decoration: InputDecoration(
+                                  labelStyle: TextStyle(color: Colors.white),
+                                  // Set the border color if needed
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                  ),
                                   contentPadding: EdgeInsets.all(10.sp),
                                   hintText: hintTexts[adjustedIndex],
                                   fillColor: Colors.black.withOpacity(0.7),
@@ -388,8 +393,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
 
                                   ),
                                 ),
-                                controller: controllers[controllers.entries
-                                    .elementAt(adjustedIndex).key]!,
+                                controller: controllers[controllers.entries.elementAt(adjustedIndex).key]!,
+                                style: TextStyle(color: Colors.white), // Set the text color
                               ),
                             );
                           },
@@ -403,13 +408,13 @@ class _AddNewAddressState extends State<AddNewAddress> {
                         onTap: () {
                           log(chosen_delivery_address);
 
-                          controllers.forEach((key, controller) {
+                          controllers.forEach((key, controller) async {
                             if (controller.text.isEmpty) {
                               showToast(
                                   '${checkIsEmpty[key]} has an empty value');
                             }
                             else {
-                              AddAddressCubit.get(context).addAddress(
+                              if(await AddAddressCubit.get(context).addAddress(
                                   controllers['phone_controller']!.text,
                                   controllers['land_line_controller']!.text,
                                   controllers['street_name_controller']!.text,
@@ -418,7 +423,10 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                   controllers['apartment_num_controller'] !.text,
                                   controllers['detailed_address_controller']!.text,
                                   controllers['additional_instruction_controller']!.text,
-                                  chosen_delivery_address.toString());
+                                  chosen_delivery_address.toString(),
+                                    widget.long!,widget.lat!)){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Address()));
+                              }
                             }
                           }
                           );

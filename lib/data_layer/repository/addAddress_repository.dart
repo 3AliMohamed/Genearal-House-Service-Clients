@@ -13,11 +13,12 @@ class AddAddressRepository {
 
   AddAddressRepository._internal();
   static Future<AddAddressResponse> addAddress(String phone , String landLine, String streetName,
-      String floor,String building, String apartmentNumber, String detailedAddress,String additionalAddress,String locationType
+      String floor,String building, String apartmentNumber, String detailedAddress,String additionalAddress,String locationType,
+      double long, double lat
       )
   async{
     final response =await AddAddressWebServices.addAddress(phone, landLine, streetName, floor, building, apartmentNumber,
-        detailedAddress, additionalAddress,locationType);
+        detailedAddress, additionalAddress,locationType, long, lat);
         Map<String,dynamic>responseMap= jsonDecode(response);
         AddAddressResponse addressResponse=AddAddressResponse.fromJson(responseMap);
         return addressResponse;

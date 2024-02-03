@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:general_house_service_clients/data_layer/repository/add_order_repository.dart';
 
 import '../../../data_layer/models/requests/AddItemToOrderRequest.dart';
+import '../../../presentation_layer/widgets/reusable_widgets.dart';
 import 'add_product_states.dart';
 
 class AddProductCubit extends Cubit<AddProductStates>{
@@ -51,10 +52,10 @@ AddProductCubit() : super(AddProductInitialState());
     this.quantity=0;
     // this.chosenItem.clear();
   }
-  void addOrder(int? companyId)
+  Future<bool> addOrder(int? companyId,int? deliveryTypeId)
   async{
     emit(PlacingOrderState());
-    AddItemToOrderRequest chosenOptions=AddItemToOrderRequest(addItemToOrderRequestItems:chosenItem,companyId:companyId!);
+    AddItemToOrderRequest chosenOptions=AddItemToOrderRequest(addItemToOrderRequestItems:chosenItem,companyId:companyId!, deliveryTypeId: deliveryTypeId);
     log(chosenOptions.companyId.toString());
     for(int i=0;i<chosenOptions.addItemToOrderRequestItems.length;i++){
       log("product option  :"+chosenOptions.addItemToOrderRequestItems[i].productOptionId.toString());
@@ -66,7 +67,14 @@ AddProductCubit() : super(AddProductInitialState());
     // log("len all"+newObj.addItemToOrderRequestItems.length.toString());
 
     bool isSet=await AddProductRepository.setOrder(chosenOptions);
-    isSet? emit(PlacedSuccessfullyState()) : emit(ErrorState());
+    if(isSet){
+      emit(PlacedSuccessfullyState());
+      showToast("successfully Added");
+      return true;
+    }
+    else{emit(ErrorState());
+    return false;
+    }
     chosenOptions.reset();
 
   }

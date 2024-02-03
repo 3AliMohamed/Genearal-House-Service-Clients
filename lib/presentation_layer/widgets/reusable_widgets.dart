@@ -39,8 +39,14 @@ Widget buildTextFormFieldProfileScreen(TextEditingController controller,String h
    ),
    child: TextFormField(
      decoration: InputDecoration(
-       prefixIcon: Image.asset(icon,width: 3.w,height: 3.h),
-       contentPadding: EdgeInsets.only(left: 10.sp),
+         prefixIcon: new Padding(
+           padding: const EdgeInsets.only( top: 15, left: 5, right: 0, bottom: 15),
+           child: new SizedBox(
+             height: 4,
+             child: Image.asset(icon),
+           ),
+         ),
+       contentPadding: EdgeInsets.only(left: 10.sp,top: 10.sp),
        hintText: Trans(hintText).tr,
        hintStyle: TextStyle(color: Colors.grey),
      ),

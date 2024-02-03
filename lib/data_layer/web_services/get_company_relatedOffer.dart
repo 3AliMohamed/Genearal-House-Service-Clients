@@ -18,7 +18,8 @@ class GetCompanyWebServices{
      'Accept-Language': 'ar',
      'api-token': 'gh-general'
    };
-   var request = http.Request('GET', Uri.parse("${'${ApiUrls().getCompany}$id/category'})"));
+   log("inside wen service ");
+   var request = http.Request('GET', Uri.parse('${ApiUrls().getCompany}$id/category'));
 
    request.headers.addAll(headers);
 
@@ -26,9 +27,11 @@ class GetCompanyWebServices{
 
    if (response.statusCode == 200) {
      String companyResponse=await response.stream.bytesToString();
+
      return companyResponse;
    }
    else {
+     log("ali");
      return response.reasonPhrase!;
    }
 

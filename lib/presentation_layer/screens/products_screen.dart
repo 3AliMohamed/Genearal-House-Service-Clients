@@ -34,6 +34,7 @@ class ProductsScreen extends StatefulWidget {
   String? productId;
   List<Categories>? categoriesProduct = [];
   Map<String, dynamic>? company = {};
+  int? deliveryTypeId;
   // Data companyData=  Data.fromJson(company!);
   @override
   State<ProductsScreen> createState() => _ProductsScreenState();
@@ -247,7 +248,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
                               return TextButton(
                                   onPressed: () {
                                     ProductCubit.get(context).setPercentage(widget.company!['delivery_types'][indexDeliveryType]['added_value']);
-                                  },
+                                    widget.deliveryTypeId=widget.company!['delivery_types'][indexDeliveryType]['id'];
+                                    log("delivery id : " +widget.deliveryTypeId.toString());
+                                    },
                                   child: Text(
                                     widget.company!['delivery_types'][indexDeliveryType]['name_en'],
                                     style: TextStyle(
@@ -458,20 +461,18 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                     BlocListener<AddProductCubit,AddProductStates>(
                                                         listener: (context,state)
                                                         {
-                                                          if (state is PlacedSuccessfullyState)
-                                                          {
-                                                            log("success added");
-                                                            showToast("successfully Added");
-                                                          }
+
                                                         },
                                                         child:  InkWell(
-                                                          onTap: (){
+                                                          onTap: () async {
                                                             if(SharedPreferencesManager.containKey('token')==true) {
                                                               log("token");
                                                                // Call the reset function
-                                                              BlocProvider.of<CartCubit>(context).reset();
-                                                              AddProductCubit.get(context).addOrder(
-                                                                  widget.companyId);
+                                                              widget.deliveryTypeId??=1;
+                                                              Future<bool> isAdded=AddProductCubit.get(context).addOrder(
+                                                                  widget.companyId,widget.deliveryTypeId);
+                                                              if(await isAdded){
+                                                                BlocProvider.of<CartCubit>(context).reset();}
                                                             }else{
                                                               log('not token');
                                                               showToast('You Should Log In First');

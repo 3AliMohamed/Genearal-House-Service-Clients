@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:general_house_service_clients/business_logic_layer/cubit/checkOut/cubit.dart';
 import 'package:general_house_service_clients/business_logic_layer/cubit/checkOut/states.dart';
+import 'package:general_house_service_clients/business_logic_layer/cubit/promo_code/cubit.dart';
+import 'package:general_house_service_clients/business_logic_layer/cubit/promo_code/states.dart';
 import 'package:general_house_service_clients/constants/end_points.dart';
 import 'package:general_house_service_clients/data_layer/models/responses/cart_response.dart';
 import 'package:general_house_service_clients/helpers/SharedPrefManager.dart';
@@ -27,7 +30,8 @@ class CheckOut extends StatefulWidget {
   State<CheckOut> createState() => _CheckOutState();
 }
 
-class _CheckOutState extends State<CheckOut> {
+class _CheckOutState extends State<CheckOut> with TickerProviderStateMixin{
+  late AnimationController _animationController;
   TextEditingController instructions_controller= TextEditingController();
   String? selectedValue = null ;
   List<String> items = ['car','onfoot'];
@@ -46,7 +50,7 @@ class _CheckOutState extends State<CheckOut> {
   int quantity=0;
   int product_price=300;
   int total=0;
-  double? totalOrderPrice=0;
+  num? totalOrderPrice=0;
   String? currentLang=SharedPreferencesManager.getString('lang');
   // List<TransportationPeriodData> transportationPeriodPickupList = [];
   Map<String, List<dynamic>> products = {
@@ -78,6 +82,10 @@ class _CheckOutState extends State<CheckOut> {
     //   };
     // }
     // Initialize the variableToUse in initState
+    _animationController = AnimationController(
+      vsync: this, // Use 'this' as the TickerProvider
+      duration: const Duration(milliseconds: 1200),
+    );
     log(widget.chosenAddress.toString());
     for(int i=0;i<widget.orderDetails![widget.dataIndex!].order!.items!.length;i++)
       {
@@ -99,13 +107,17 @@ class _CheckOutState extends State<CheckOut> {
       products['orderId']?.add(widget.orderDetails![widget.dataIndex!].order!.id.toString());
       products['locationId']?.add('52');
 
-
+    @override
+    void dispose() {
+      _animationController.dispose();
+      // ... dispose of other resources ...
+      super.dispose();
+    }
   }
 
 
   @override
   Widget build(BuildContext context) {
-
     return BlocProvider(
         create: (context)=>CheckOutCubit(),
         child: BlocConsumer<CheckOutCubit,CheckOutStates>(
@@ -160,6 +172,7 @@ class _CheckOutState extends State<CheckOut> {
                   ),
                   child: SingleChildScrollView(
                     child: Column(
+                      // crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
                           padding:  EdgeInsets.only(right: 380.sp),
@@ -263,119 +276,192 @@ class _CheckOutState extends State<CheckOut> {
                                 );
                               }),
                         ),
-                        Container(
-                          margin: EdgeInsets.all(5.sp),
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey,
-                              ),
-                              BoxShadow(
-                                color: Color.fromRGBO(0,0, 0, 0.9),
-                                spreadRadius: -1,
-                                blurRadius: 3,
-                                offset: Offset(0,0),
-                                // blurStyle: BlurStyle.solid
-                              )
-                            ],
-                            // border: Border.all(color: Colors.white,width: 2.sp,),
-                            borderRadius: BorderRadius.circular(5.sp),
+                        BlocConsumer<PromoCodeCubit,PromoCodeStates>(
+                            builder: (context,state){
+                              PromoCodeCubit.get(context).calculateTotalOrderPrice(totalOrderPrice!);
+                              if(state is PromoCodeLoadingState){
+                                return SpinKitFadingCircle(
+                                  color: Colors.grey,
+                                  size: 50.0,
+                                  controller: AnimationController(vsync: this, duration: const Duration(milliseconds: 1200)),
+                                );
+                              }
+                              else {
+                                return Column(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.all(5.sp),
+                                      decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey,
+                                          ),
+                                          BoxShadow(
+                                            color: Color.fromRGBO(0, 0, 0, 0.9),
+                                            spreadRadius: -1,
+                                            blurRadius: 3,
+                                            offset: Offset(0, 0),
+                                            // blurStyle: BlurStyle.solid
+                                          )
+                                        ],
+                                        // border: Border.all(color: Colors.white,width: 2.sp,),
+                                        borderRadius: BorderRadius.circular(
+                                            5.sp),
 
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                width: 320.w,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            width: 320.w,
 
-                                child: TextFormField(
-                                  decoration: InputDecoration(
+                                            child: TextFormField(
+                                              decoration: InputDecoration(
 
-                                    contentPadding: EdgeInsets.only(left: 10.sp),
-                                    hintText: 'Do You Have A Promo Code ?',
-                                    hintStyle: TextStyle(color: Colors.grey),
-                                  ),
-                                  // textAlign: TextAlign.center,
-                                  controller: promoCodeController,
-                                  style: TextStyle(color: Colors.white),
-                                  // onChanged: (value) => ,
+                                                contentPadding: EdgeInsets.only(
+                                                    left: 10.sp),
+                                                hintText: 'Do You Have A Promo Code ?',
+                                                hintStyle: TextStyle(
+                                                    color: Colors.grey),
+                                              ),
+                                              // textAlign: TextAlign.center,
+                                              controller: promoCodeController,
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                              // onChanged: (value) => ,
 
-                                ),
-                              ),
-                              TextButton(onPressed: (){
-                                log(widget.chosenAddress.toString());
-                              },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                        left: BorderSide(
-                                          color: Colors.white,
-                                          width: 2,
-                                        )
-                                      )
+                                            ),
+                                          ),
+                                          TextButton(onPressed: () {
+                                            PromoCodeCubit.get(context)
+                                                .tryPromoCode(
+                                                products['orderId']![0]
+                                                    .toString(),
+                                                promoCodeController.text,
+                                                products['companyId']![0]
+                                                    .toString(),
+                                                totalOrderPrice!);
+                                          },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                        left: BorderSide(
+                                                          color: Colors.white,
+                                                          width: 2,
+                                                        )
+                                                    )
+                                                ),
+                                                padding: EdgeInsets.only(
+                                                    left: 10.sp),
+                                                child: Text('Apply',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight
+                                                          .bold),
+                                                ),
+                                              ))
+                                        ],
+                                      ),
                                     ),
-                                    padding: EdgeInsets.only(left: 10.sp),
-                                    child: Text('Apply',
-                                    style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
-                                    ),
-                                  ))
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 10.h,),
-                        Container(
-                          padding: EdgeInsets.only(top: 5.sp,bottom: 5.sp,
-                              left: 5.sp,right: 5.sp),
-                          // margin: EdgeInsets.only(bottom: 15.sp),
-                          decoration: BoxDecoration(
-                              color: Color(0xff1D1D1D),
+                                    SizedBox(height: 10.h,),
+                                    Container(
+                                      padding: EdgeInsets.only(
+                                          top: 5.sp, bottom: 5.sp,
+                                          left: 5.sp, right: 5.sp),
+                                      // margin: EdgeInsets.only(bottom: 15.sp),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xff1D1D1D),
 
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                   Text("Order :",
-                                  style: TextStyle(color: Colors.white,fontSize: 15.sp),
-                                  ),
-                                  Text("$totalOrderPrice Aud",
-                                    style: TextStyle(color: Colors.white,fontSize: 15.sp),),
-                                ],
-                              ),
-                              SizedBox(height: 5.h,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                   Text("Discount:",
-                                    style: TextStyle(color: Colors.white,fontSize: 15.sp),),
-                                  Text("$total Aud",
-                                    style: TextStyle(color: Colors.white,fontSize: 15.sp),),
-                                ],
-                              ),
-                              SizedBox(height: 5.h,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                   Text("VAT:",
-                                     style: TextStyle(color: Colors.white,fontSize: 15.sp),),
-                                  Text("$total Aud",
-                                    style: TextStyle(color: Colors.white,fontSize: 15.sp),),
-                                ],
-                              ),
-                              Divider(color: Colors.white,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                   Text("Summary:",
-                                    style: TextStyle(color: Colors.white,fontSize: 15.sp),),
-                                  Text("$total Aud",
-                                    style: TextStyle(color: Colors.white,fontSize: 15.sp),),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .spaceBetween,
+                                            children: [
+                                              Text("Order :",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15.sp),
+                                              ),
+                                              Text("$totalOrderPrice Aud",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15.sp),),
+                                            ],
+                                          ),
+                                          SizedBox(height: 5.h,),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text("Discount:",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15.sp),),
+                                              Text("${PromoCodeCubit
+                                                  .get(context)
+                                                  .discount} Aud",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15.sp),),
+                                            ],
+                                          ),
+                                          SizedBox(height: 5.h,),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .spaceBetween,
+                                            children: [
+                                              Text("VAT:",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15.sp),),
+                                              Text("$total Aud",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15.sp),),
+                                            ],
+                                          ), SizedBox(height: 5.h,),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .spaceBetween,
+                                            children: [
+                                              Text("Delivery Fess:",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15.sp),),
+                                              Text("0 Aud",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15.sp),),
+                                            ],
+                                          ),
+                                          Divider(color: Colors.white,),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .spaceBetween,
+                                            children: [
+                                              Text("Summary:",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15.sp),),
+                                              Text("${PromoCodeCubit
+                                                  .get(context)
+                                                  .totalOrderPrice} Aud",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15.sp),),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                            }, listener: (context,state){
+
+                        }),
                         SizedBox(height: 10.h,),
                         Container(
                           padding: EdgeInsets.only(left: 10.sp),
@@ -406,267 +492,6 @@ class _CheckOutState extends State<CheckOut> {
                             ],
                           ),
                         ),
-                        // Container(
-                        //   // margin: EdgeInsets.all(8.sp),
-                        //   padding: EdgeInsets.all(5.sp),
-                        //   decoration: BoxDecoration(
-                        //       color: Colors.white,
-                        //       borderRadius: BorderRadius.circular(12.sp)
-                        //   ),
-                        //   child: Column(
-                        //     // crossAxisAlignment: CrossAxisAlignment.start,
-                        //     children: [
-                        //       Text("Delivery Details"),
-                        //       DashedDivider(),
-                        //       Row(
-                        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //         children: [
-                        //           Container(
-                        //             padding:EdgeInsets.all(5.sp),
-                        //
-                        //             height: 35.h,
-                        //             decoration: BoxDecoration(
-                        //               border: Border.all(color: Colors.black,), // Border
-                        //               borderRadius: BorderRadius.circular(10.sp), // Border radius
-                        //             ),
-                        //             child: DropdownButton(
-                        //               style: TextStyle(
-                        //                 color: Colors.black, // Text color
-                        //                 fontSize: 16.0, // Text size
-                        //               ),
-                        //               icon: Icon(
-                        //                 Icons.arrow_drop_down, // Dropdown icon
-                        //                 color: Colors.black, // Icon color
-                        //               ),
-                        //               dropdownColor: Colors.white,
-                        //               hint: Text("PickUp date"),
-                        //               value: selectedValue, // Current selected value
-                        //               onChanged: (String? newValue) {
-                        //                 setState(() {
-                        //                   selectedValue = newValue!;
-                        //                 });
-                        //               },
-                        //               items: items.map((String item) {
-                        //                 return DropdownMenuItem<String>(
-                        //                   value: item,
-                        //                   child: Padding(
-                        //                     padding: EdgeInsets.only(left:5.sp),
-                        //                     child: Text(
-                        //                       item,
-                        //                       style: TextStyle(color: Colors.black),
-                        //                     ),
-                        //                   ),
-                        //                 );
-                        //               }).toList(),
-                        //             ),
-                        //           ),
-                        //           Container(
-                        //             padding:EdgeInsets.all(5.sp),
-                        //             height: 35.h,
-                        //             decoration: BoxDecoration(
-                        //               border: Border.all(color: Colors.black,), // Border
-                        //               borderRadius: BorderRadius.circular(10.sp), // Border radius
-                        //             ),
-                        //             child: DropdownButton(
-                        //               style: TextStyle(
-                        //                 color: Colors.black, // Text color
-                        //                 fontSize: 16.0, // Text size
-                        //               ),
-                        //               icon: Icon(
-                        //                 Icons.arrow_drop_down, // Dropdown icon
-                        //                 color: Colors.black, // Icon color
-                        //               ),
-                        //               dropdownColor: Colors.white,
-                        //               hint: Text("Dlivery date"),
-                        //               value: selectedValue, // Current selected value
-                        //               onChanged: (String? newValue) {
-                        //                 setState(() {
-                        //                   selectedValue = newValue!;
-                        //                 });
-                        //               },
-                        //               items: items.map((String item) {
-                        //                 return DropdownMenuItem<String>(
-                        //                   value: item,
-                        //                   child: Padding(
-                        //                     padding: EdgeInsets.only(left:5.sp),
-                        //                     child: Text(
-                        //                       item,
-                        //                       style: TextStyle(color: Colors.black),
-                        //                     ),
-                        //                   ),
-                        //                 );
-                        //               }).toList(),
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //       Row(
-                        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //         children: [
-                        //           Container(
-                        //             padding:EdgeInsets.all(5.sp),
-                        //             height: 35.h,
-                        //             decoration: BoxDecoration(
-                        //               border: Border.all(color: Colors.black,), // Border
-                        //               borderRadius: BorderRadius.circular(10.sp), // Border radius
-                        //             ),
-                        //             child: DropdownButton(
-                        //               style: TextStyle(
-                        //                 color: Colors.black, // Text color
-                        //                 fontSize: 16.0, // Text size
-                        //               ),
-                        //               icon: Icon(
-                        //                 Icons.arrow_drop_down, // Dropdown icon
-                        //                 color: Colors.black, // Icon color
-                        //               ),
-                        //               dropdownColor: Colors.white,
-                        //               hint: Text("Transportation"),
-                        //               value: selectedValue, // Current selected value
-                        //               onChanged: (String? newValue) {
-                        //                 setState(() {
-                        //                   selectedValue = newValue!;
-                        //                 });
-                        //               },
-                        //               items: items.map((String item) {
-                        //                 return DropdownMenuItem<String>(
-                        //                   value: item,
-                        //                   child: Padding(
-                        //                     padding: EdgeInsets.only(left:5.sp),
-                        //                     child: Text(
-                        //                       item,
-                        //                       style: TextStyle(color: Colors.black),
-                        //                     ),
-                        //                   ),
-                        //                 );
-                        //               }).toList(),
-                        //             ),
-                        //           ),
-                        //           Container(
-                        //             padding:EdgeInsets.all(5.sp),
-                        //             height: 35.h,
-                        //             decoration: BoxDecoration(
-                        //               border: Border.all(color: Colors.black,), // Border
-                        //               borderRadius: BorderRadius.circular(10.sp), // Border radius
-                        //             ),
-                        //             child: DropdownButton(
-                        //               style: TextStyle(
-                        //                 color: Colors.black, // Text color
-                        //                 fontSize: 16.0, // Text size
-                        //               ),
-                        //               icon: Icon(
-                        //                 Icons.arrow_drop_down, // Dropdown icon
-                        //                 color: Colors.black, // Icon color
-                        //               ),
-                        //               dropdownColor: Colors.white,
-                        //               hint: Text("Transportation"),
-                        //               value: selectedValue, // Current selected value
-                        //               onChanged: (String? newValue) {
-                        //                 setState(() {
-                        //                   selectedValue = newValue!;
-                        //                 });
-                        //               },
-                        //               items: items.map((String item) {
-                        //                 return DropdownMenuItem<String>(
-                        //                   value: item,
-                        //                   child: Padding(
-                        //                     padding: EdgeInsets.only(left:5.sp),
-                        //                     child: Text(
-                        //                       item,
-                        //                       style: TextStyle(color: Colors.black),
-                        //                     ),
-                        //                   ),
-                        //                 );
-                        //               }).toList(),
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //       Row(
-                        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //         children: [
-                        //           Container(
-                        //             padding:EdgeInsets.all(5.sp),
-                        //             height: 35.h,
-                        //             decoration: BoxDecoration(
-                        //               border: Border.all(color: Colors.black,), // Border
-                        //               borderRadius: BorderRadius.circular(10.sp), // Border radius
-                        //             ),
-                        //             child: DropdownButton(
-                        //               style: TextStyle(
-                        //                 color: Colors.black, // Text color
-                        //                 fontSize: 16.0, // Text size
-                        //               ),
-                        //               icon: Icon(
-                        //                 Icons.arrow_drop_down, // Dropdown icon
-                        //                 color: Colors.black, // Icon color
-                        //               ),
-                        //               dropdownColor: Colors.white,
-                        //               hint: Text("PickUp driver"),
-                        //               value: selectedValue, // Current selected value
-                        //               onChanged: (String? newValue) {
-                        //                 setState(() {
-                        //                   selectedValue = newValue!;
-                        //                 });
-                        //               },
-                        //               items: items.map((String item) {
-                        //                 return DropdownMenuItem<String>(
-                        //                   value: item,
-                        //                   child: Padding(
-                        //                     padding: EdgeInsets.only(left:5.sp),
-                        //                     child: Text(
-                        //                       item,
-                        //                       style: TextStyle(color: Colors.black),
-                        //                     ),
-                        //                   ),
-                        //                 );
-                        //               }).toList(),
-                        //             ),
-                        //           ),
-                        //           Container(
-                        //             padding:EdgeInsets.all(5.sp),
-                        //             height: 35.h,
-                        //             decoration: BoxDecoration(
-                        //               border: Border.all(color: Colors.black,), // Border
-                        //               borderRadius: BorderRadius.circular(10.sp), // Border radius
-                        //             ),
-                        //             child: DropdownButton(
-                        //               style: TextStyle(
-                        //                 color: Colors.black, // Text color
-                        //                 fontSize: 16.0, // Text size
-                        //               ),
-                        //               icon: Icon(
-                        //                 Icons.arrow_drop_down, // Dropdown icon
-                        //                 color: Colors.black, // Icon color
-                        //               ),
-                        //               dropdownColor: Colors.white,
-                        //               hint: Text("Dlivery driver"),
-                        //               value: selectedValue, // Current selected value
-                        //               onChanged: (String? newValue) {
-                        //                 setState(() {
-                        //                   selectedValue = newValue!;
-                        //                 });
-                        //               },
-                        //               items: items.map((String item) {
-                        //                 return DropdownMenuItem<String>(
-                        //                   value: item,
-                        //                   child: Padding(
-                        //                     padding: EdgeInsets.only(left:5.sp),
-                        //                     child: Text(
-                        //                       item,
-                        //                       style: TextStyle(color: Colors.black),
-                        //                     ),
-                        //                   ),
-                        //                 );
-                        //               }).toList(),
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //
-                        //
-                        //     ],
-                        //   ),
-                        // ),
                         SizedBox(height: 15.h,),
                         Container(
                             width: double.infinity,

@@ -132,8 +132,6 @@ class _MyOrdersState extends State<MyOrders> {
                               String? imgPath=state.response.data?[index].clientOrder?.company?.logoPath;
                               String? companyNameEn=state.response.data![index].clientOrder!.company!.nameEn.toString();
                               String? companyNameAr=state.response.data![index].clientOrder!.company!.nameAr.toString();
-
-
                               return Container(
                                 margin: EdgeInsets.all(10.sp),
                                 width: 400.w,
@@ -180,8 +178,6 @@ class _MyOrdersState extends State<MyOrders> {
                                         //   return Text(product[index]);
                                         // },
                                         // ),
-
-
                                         Row(
                                           children: [
                                             Text('Status : ', style: TextStyle(color: Colors.white,)),
@@ -283,6 +279,14 @@ class _MyOrdersState extends State<MyOrders> {
                 )
             );
           }
+        else if (state is FetchError)
+          {
+            log(state.error.toString());
+            return Container(
+              child:Text(state.error.toString())
+            );
+          }
+
         else{
           return  SpinKitFadingCube(
             color: Color(0xffB4AFAF),

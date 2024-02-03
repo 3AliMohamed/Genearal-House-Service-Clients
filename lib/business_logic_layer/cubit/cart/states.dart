@@ -26,3 +26,13 @@ class DecrementState extends CartStates{}
 
 class CalculatedState extends CartStates{}
 
+class ItemDeletedSuccessfully extends CartStates{}
+
+class ItemDeleteError extends CartStates{}
+
+
+class CompanyDeletedSuccessfully extends CartStates{}
+
+class CompanyDeleteError extends CartStates{}
+
+
