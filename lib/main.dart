@@ -43,6 +43,7 @@ import 'business_logic_layer/cubit/authentication/get_profile/cubit.dart';
 import 'business_logic_layer/cubit/authentication/login_cubit/cubit.dart';
 import 'business_logic_layer/cubit/authentication/logout/cubit.dart';
 import 'business_logic_layer/cubit/company/cubit.dart';
+import 'business_logic_layer/cubit/transportation_period/cubit.dart';
 import 'constants/LocalString.dart';
 import 'helpers/SharedPrefManager.dart';
 
@@ -88,6 +89,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => ProfileCubit()),
           BlocProvider(create: (context) => UpdateProfileCubit()),
           BlocProvider(create: (context) => CartCubit()),
+          BlocProvider(create: (context)=>TransportationPeriodCubit()),
           BlocProvider(create: (context) => MyOrdersCubit()),
           // BlocProvider(create: (context) => ProductCubit()),
           BlocProvider(create: (context) => AddProductCubit()),

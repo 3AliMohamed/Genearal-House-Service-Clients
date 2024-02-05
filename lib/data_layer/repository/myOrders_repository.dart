@@ -15,7 +15,7 @@ class MyOrdersRepository {
 
   static Future<MyOrdersResponse?> getMyOrders()
   async{
-    String response= await MyOrdersWebServices.getMyOrder() ;
+    String response= await MyOrdersWebServices.getMyOrder();
 
     Map<String,dynamic> responseMap=jsonDecode(response);
 

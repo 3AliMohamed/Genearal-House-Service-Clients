@@ -14,5 +14,6 @@ class DeletedAddressError extends GetAddressStates{}
 
 
 class CheckboxUpdated extends GetAddressStates{}
+class CheckboxReset extends GetAddressStates{}
 
 

@@ -181,8 +181,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                     borderRadius: BorderRadius.circular(10.sp),
                                   ),
                                   child: TextFormField(
+                                    style: TextStyle(color: Colors.white),
                                     decoration: InputDecoration(
-
                                       contentPadding: EdgeInsets.all(10.sp),
                                       hintText: hintTexts[index],
                                       fillColor: Colors.black.withOpacity(0.7),
@@ -376,6 +376,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                 borderRadius: BorderRadius.circular(10.sp),
                               ),
                               child: TextFormField(
+                                style: TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.all(10.sp),
                                   hintText: hintTexts[adjustedIndex],
@@ -419,6 +420,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                   controllers['detailed_address_controller']!.text,
                                   controllers['additional_instruction_controller']!.text,
                                   chosen_delivery_address.toString());
+                              // Navigator.of(context).pop();
                             }
                           }
                           );
